@@ -67,17 +67,21 @@ echo
 cd $gitpath
 
 # Self-update.
-cmp --silent $gitbashrc/.bashrc ~/.bashrc
-if [ $? -eq 0 ]; then
-	echo ".bashrc is up to date."
-elif [ $? -eq 1 ]; then
-	echo "Self-updating from $gitbashrc/.bashrc..."
-	cp -v $gitbashrc/.bashrc ~/.bashrc
-	echo "Done. Restarting Git Bash...";
-	echo
-	exec bash -l
+if [ -f $gitbashrc/.bashrc ]; then
+	cmp --silent $gitbashrc/.bashrc ~/.bashrc
+	if [ $? -eq 0 ]; then
+		echo ".bashrc is up to date."
+	elif [ $? -eq 1 ]; then
+		echo "Self-updating from $gitbashrc/.bashrc..."
+		cp -v $gitbashrc/.bashrc ~/.bashrc
+		echo "Done. Restarting Git Bash...";
+		echo
+		exec bash -l
+	else
+		echo "Error comparing with new version. (???)"
+	fi
 else
-	echo "Error looking for new version. Your \$gitbashrc path ($gitbashrc) may not be correct."
+	echo "Error looking for new version. Your \$gitbashrc path ($gitbashrc) may not be correct, and you may need to update \~/.bashrc manually."
 fi
 
 # Makes me sign in with SSH key if necessary; tries to preserve sessions if possible.
@@ -170,12 +174,6 @@ gsa_repodetails () {
 }
 
 
-# Welcome!
-echo
-echo Welcome! This is the super-awesome .bashrc file installed in your \~ directory.
-echo Sample commands: gs gc gu gsa npp. Try \"notepad ~/.bashrc\" to look at all your aliases and functions.
-echo
-
 # https://askubuntu.com/questions/249174/prepend-current-git-branch-in-terminal
 parse_git_branch() {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
@@ -191,3 +189,10 @@ set_bash_prompt_colors () {
 	PS1+="\[$BWhite\]" # User input color
 }
 export PROMPT_COMMAND='set_bash_prompt_colors;history -a;history -c;history -r' # https://superuser.com/questions/555310/bash-save-history-without-exit
+
+
+# Welcome!
+echo
+echo Welcome! This is the super-awesome .bashrc file installed in your \~ directory.
+echo Sample commands: gs gc gu gsa npp. Try \"npp \~/.bashrc\" or \"nano \~/.bashrc\" to look at all your aliases and functions.
+echo
