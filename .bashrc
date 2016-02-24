@@ -1,30 +1,30 @@
 # .bashrc
-# LastUpdated 6/21/2015 (the Git history is more reliable)
+# LastUpdated 2/22/2016 (the Git history is more reliable)
 # Copyright Clive Chan, 2014-present (http://clive.io)
 # License: CC BY-SA 4.0(https://creativecommons.org/licenses/by-sa/4.0/)
 
-# Written for Windows. I'm not sure if it works on any other platform.
-# Description: Sets up a convenient Git Bash environment. Copy into ~ (C:/Users/You/), and run msysgit.
+# Written for Windows, also works on Amazon Linux.
+# Description: Sets up a convenient Git Bash environment. Copy into ~ (C:/Users/You/), and run msysgit (or just ssh into your ec2 instance)
 
 clear
 
 ####### CUSTOMIZABLES #######
 
+# Other Tips:
+
+# use .ssh/config
+# 	host asdf
+# 	hostname 123.456.78.90
+# 	port 22
+# 	user fdsa
+# then you can just type "ssh asdf" and it'll work
+
+
 # Paths
 gitpath=~/github
 gitbashrc=$gitpath/misc/bashrc
 sshtmp=/tmp/sshagentthing.sh #yes, this is correct. It's a special Unix directory.
-PATH=$PATH:/c/MinGW/bin
-# perhaps I Should save $PATH here
 
-# Aliases for various repos
-alias tbb="cd ~/Desktop/github/2015-4029 && git status"
-alias rd="cd ~/Desktop/github/r-d && git status"
-alias lhsmath="cd ~/Desktop/github/lhsmath && git status"
-# alias hackne="cd ~/Desktop/github/hackne && git status"
-# alias scifair="cd ~/Desktop/github/scifair && git status"
-# alias lib="cd ~/Desktop/github/lib && git status"
-# alias cb="cd ~/Desktop/github/rtwf/calcbee && git status"
 
 # Editor aliases
 alias npp="\"C:\Program Files (x86)\Notepad++\notepad++.exe\""
@@ -67,24 +67,28 @@ echo
 cd $gitpath
 
 # Self-update.
-cmp --silent $gitbashrc/.bashrc ~/.bashrc
-if [ $? -eq 0 ]; then
-	echo ".bashrc is up to date."
-elif [ $? -eq 1 ]; then
-	echo "Self-updating from $gitbashrc/.bashrc..."
-	cp -v $gitbashrc/.bashrc ~/.bashrc
-	echo "Done. Restarting Git Bash...";
-	echo
-	exec bash -l
+if [ -f $gitbashrc/.bashrc ]; then
+	cmp --silent $gitbashrc/.bashrc ~/.bashrc
+	if [ $? -eq 0 ]; then
+		echo ".bashrc is up to date."
+	elif [ $? -eq 1 ]; then
+		echo "Self-updating from $gitbashrc/.bashrc..."
+		cp -v $gitbashrc/.bashrc ~/.bashrc
+		echo "Done. Restarting Git Bash...";
+		echo
+		exec bash -l
+	else
+		echo "Error comparing with new version. (???)"
+	fi
 else
-	echo "Error looking for new version. Your \$gitbashrc path ($gitbashrc) may not be correct."
+	echo "Error looking for new version. Your \$gitbashrc path ($gitbashrc) may not be correct, and you may need to update \~/.bashrc manually."
 fi
 
 # Makes me sign in with SSH key if necessary; tries to preserve sessions if possible.
 # NOTE THAT this agent feature must be disabled to have security. Any application can ask the ssh-agent for stuff.
 	# Actually, this may not be true. :/
 # For a guide on how to use SSH with GitHub, try https://help.github.com/articles/generating-ssh-keys/
-# If something messes up, just remove the starter file and restart the shell with ssh-reset.
+# If something messes up, ssh-reset to remove the starter file and restart the shell.
 # "ssh-agent" returns a bash script that sets global variables, so I store it into a tmp file auto-erased at each reboot.
 if [ -f ~/.ssh/id_rsa.pub -a -f ~/.ssh/id_rsa ]; then # Only if we actually have some SSH stuff to do
 	ssh-start () { ssh-agent > $sshtmp; . $sshtmp; ssh-add; } # -t 1200 may be added to ssh-agent.
@@ -110,6 +114,7 @@ fi
 alias ga="git add --all :/"
 alias gs="git status" # Laziness.
 alias gc="git add --all :/ && git commit" # Stages everything and commits it. You can add -m "asdf" if you want, and it'll apply to "git commit".
+alias gd="git diff"
 gu () { gc "$@"; git push; } # commits things and pushes them. You can use gu -m "asdf", since all arguments to gu are passed to gc.
 alias gam="gc --amend --no-edit && git push --force" # Shortform for when you mess up and don't want an extra commit in the history
 grp () { br=`git branch | grep "*" | cut -c 3-`; git remote add $1 "git@github.com:$2"; git fetch $1; git push -u $1 $br; }
@@ -169,20 +174,25 @@ gsa_repodetails () {
 }
 
 
-# Welcome!
-echo
-echo Welcome! This is the super-awesome .bashrc file installed in your \~ directory.
-echo Sample commands: gs gc gu gsa npp. Try \"notepad ~/.bashrc\" to look at all your aliases and functions.
-echo
-
+# https://askubuntu.com/questions/249174/prepend-current-git-branch-in-terminal
+parse_git_branch() {
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
 
 # https://wiki.archlinux.org/index.php/Color_Bash_Prompt
 set_bash_prompt_colors () {
     PS1="\[$Yellow\][\$?] " # Exit status for the last command
     PS1+="\[$Green\]\\u@\\h " # User@Host
     PS1+="\[$Purple\]\w\[\e[m\] " # Path
-	PS1+="\[$Cyan\]\$(__git_ps1 '[%s] ')" # Git branch if applicable
+	PS1+="\[$Cyan\]\$(parse_git_branch)" # Git branch if applicable
 	PS1+="\[$Cyan\]\$\[\e[m\] " # Prompt
 	PS1+="\[$BWhite\]" # User input color
 }
 export PROMPT_COMMAND='set_bash_prompt_colors;history -a;history -c;history -r' # https://superuser.com/questions/555310/bash-save-history-without-exit
+
+
+# Welcome!
+echo
+echo Welcome! This is the super-awesome .bashrc file installed in your \~ directory.
+echo Sample commands: gs gc gu gsa npp. Try \"npp \~/.bashrc\" or \"nano \~/.bashrc\" to look at all your aliases and functions.
+echo
