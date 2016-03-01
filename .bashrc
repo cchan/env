@@ -6,6 +6,12 @@
 # Written for Windows, also works on Amazon Linux.
 # Description: Sets up a convenient Git Bash environment. Copy into ~ (C:/Users/You/), and run msysgit (or just ssh into your ec2 instance)
 
+
+
+# https://www.linuxquestions.org/questions/linux-newbie-8/scp-copy-a-file-from-local-machine-to-remote-machine-214150/
+# "dumb" terminal type for SCP doesn't support "clear" and other things
+test "dumb" == $TERM && return
+
 clear
 
 ####### CUSTOMIZABLES #######
