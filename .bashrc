@@ -6,13 +6,13 @@
 # Written for Windows, also works on Amazon Linux.
 # Description: Sets up a convenient Git Bash environment. Copy into ~ (C:/Users/You/), and run msysgit (or just ssh into your ec2 instance)
 
+# Development note: read http://www.tldp.org/LDP/abs/html/abs-guide.html
 
 
 # https://www.linuxquestions.org/questions/linux-newbie-8/scp-copy-a-file-from-local-machine-to-remote-machine-214150/
 # "dumb" terminal type for SCP doesn't support "clear" and other things
 test "dumb" == $TERM && return
 
-clear
 
 ####### CUSTOMIZABLES #######
 
@@ -65,9 +65,9 @@ export BWhite='\e[1;37m'       # White
 export ColorReset='\e[00m'     # Reset to default
 
 # Title + Version
-echo -e $BBlack"Git Bash"
-git version
-echo
+# echo -e "\e[38;5;242mGit Bash"
+# git version
+# echo
 
 # Gets to the right place
 cd $gitpath
@@ -76,12 +76,12 @@ cd $gitpath
 if [ -f $gitbashrc/.bashrc ]; then
 	cmp --silent $gitbashrc/.bashrc ~/.bashrc
 	if [ $? -eq 0 ]; then
-		echo ".bashrc is up to date."
+		: # echo ".bashrc is up to date."
 	elif [ $? -eq 1 ]; then
 		echo "Self-updating from $gitbashrc/.bashrc..."
 		cp -v $gitbashrc/.bashrc ~/.bashrc
 		echo "Done. Restarting Git Bash...";
-		echo
+		clear
 		exec bash -l
 	else
 		echo "Error comparing with new version. (???)"
@@ -105,8 +105,8 @@ if [ -f ~/.ssh/id_rsa.pub -a -f ~/.ssh/id_rsa ]; then # Only if we actually have
 		echo "New SSH agent"
 		ssh-start
 	else # Otherwise, everything is preserved until the ssh-agent process is stopped.
-		echo "Reauthenticating SSH agent..."
-		. $sshtmp
+		# echo "Reauthenticating SSH agent..."
+		. $sshtmp > /dev/null
 		if ! ps | grep $SSH_AGENT_PID > /dev/null; then
 			echo "No agent with PID $SSH_AGENT_PID is running."
 			ssh-reset
@@ -197,8 +197,11 @@ set_bash_prompt_colors () {
 export PROMPT_COMMAND='set_bash_prompt_colors;history -a;history -c;history -r' # https://superuser.com/questions/555310/bash-save-history-without-exit
 
 
+. ~/.bashrcrc 2>/dev/null
+
+
 # Welcome!
-echo
-echo Welcome! This is the super-awesome .bashrc file installed in your \~ directory.
-echo Sample commands: gs gc gu gsa npp. Try \"npp \~/.bashrc\" or \"nano \~/.bashrc\" to look at all your aliases and functions.
-echo
+# echo
+# echo Welcome! This is the super-awesome .bashrc file installed in your \~ directory.
+# echo Sample commands: gs gc gu gsa npp. Try \"npp \~/.bashrc\" or \"nano \~/.bashrc\" to look at all your aliases and functions.
+# echo
