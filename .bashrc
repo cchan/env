@@ -96,10 +96,10 @@ fi
 # For a guide on how to use SSH with GitHub, try https://help.github.com/articles/generating-ssh-keys/
 # If something messes up, ssh-reset to remove the starter file and restart the shell.
 # "ssh-agent" returns a bash script that sets global variables, so I store it into a tmp file auto-erased at each reboot.
-if [ -f ~/.ssh/id_rsa.pub -a -f ~/.ssh/id_rsa ]; then # Only if we actually have some SSH stuff to do
-	ssh-start () { ssh-agent > $sshtmp; . $sshtmp; ssh-add; } # -t 1200 may be added to ssh-agent.
+if [ -f ~/.ssh/id_rsa ] || [ -f ~/.ssh/id_ecdsa ]; then # Only if we actually have some SSH stuff to do
+	ssh-start () { ssh-agent > $sshtmp; . $sshtmp > /dev/null; ssh-add &> /dev/null; echo PID $SSH_AGENT_PID; } # -t 1200 may be added to ssh-agent.
 	ssh-end () { rm $sshtmp; kill $SSH_AGENT_PID; }
-	ssh-reset () { echo "Resetting SSH agent"; ssh-end; ssh-start; }
+	ssh-reset () { echo -n "Resetting SSH agent... "; ssh-end; ssh-start; }
 	if [ ! -f $sshtmp ]; then # Only do it if daemon doesn't already exist
 		echo
 		echo "New SSH agent"
@@ -108,7 +108,7 @@ if [ -f ~/.ssh/id_rsa.pub -a -f ~/.ssh/id_rsa ]; then # Only if we actually have
 		# echo "Reauthenticating SSH agent..."
 		. $sshtmp > /dev/null
 		if ! ps | grep $SSH_AGENT_PID > /dev/null; then
-			echo "No agent with PID $SSH_AGENT_PID is running."
+			echo -n "No agent with PID $SSH_AGENT_PID is running. "
 			ssh-reset
 		fi
 	fi
@@ -188,7 +188,7 @@ parse_git_branch() {
 # https://wiki.archlinux.org/index.php/Color_Bash_Prompt
 set_bash_prompt_colors () {
     PS1="\[$Yellow\][\$?] " # Exit status for the last command
-    PS1+="\[$Green\]\\u@\\h " # User@Host
+    PS1+="\[$BBlue\]\\u@\\h " # User@Host
     PS1+="\[$Purple\]\w\[\e[m\] " # Path
 	PS1+="\[$Cyan\]\$(parse_git_branch)" # Git branch if applicable
 	PS1+="\[$Cyan\]\$\[\e[m\] " # Prompt
