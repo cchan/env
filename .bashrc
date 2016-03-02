@@ -78,10 +78,8 @@ if [ -f $gitbashrc/.bashrc ]; then
 	if [ $? -eq 0 ]; then
 		: # echo ".bashrc is up to date."
 	elif [ $? -eq 1 ]; then
-		echo "Self-updating from $gitbashrc/.bashrc..."
 		cp -v $gitbashrc/.bashrc ~/.bashrc
-		echo "Done. Restarting Git Bash...";
-		clear
+		echo "Self-updated. Restarting bash...";
 		exec bash -l
 	else
 		echo "Error comparing with new version. (???)"
@@ -123,7 +121,8 @@ alias gc="git add --all :/ && git commit" # Stages everything and commits it. Yo
 alias gd="git diff"
 gu () { gc "$@"; git push; } # commits things and pushes them. You can use gu -m "asdf", since all arguments to gu are passed to gc.
 alias gam="gc --amend --no-edit && git push --force" # Shortform for when you mess up and don't want an extra commit in the history
-grp () { br=`git branch | grep "*" | cut -c 3-`; git remote add $1 "git@github.com:$2"; git fetch $1; git push -u $1 $br; }
+gmir () { git fetch origin; git reset --hard $(git rev-parse --abbrev-ref --symbolic-full-name @{u}) } # git pull --force
+grp () { br=`git branch | grep "*" | cut -c 3-`; git remote add $1 "git@github.com:$2"; git fetch $1; git push -u $1 $br; } # git remote add and push
 
 # Shortform SSH cloning from GitHub and BitBucket
 # Use like this: clone-gh cchan/misc
