@@ -126,9 +126,9 @@ grp () { br=`git branch | grep "*" | cut -c 3-`; git remote add $1 "git@github.c
 
 # Shortform SSH cloning from GitHub and BitBucket
 # Use like this: clone-gh cchan/misc
-clone-gh () { git clone "git@github.com:$1"; cd `basename $1`; }
+clone-gh () { git clone "git@github.com:$1"; }
 gh-clone () { clone-gh $1; }
-clone-bb () { git clone "git@bitbucket.org:$1"; cd `basename $1`; }
+clone-bb () { git clone "git@bitbucket.org:$1"; }
 bb-clone () { clone-bb $1; }
 
 # The amazing git-status-all script, which reports on the status of every repo in the current folder.
