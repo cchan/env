@@ -194,7 +194,7 @@ set_bash_prompt_colors () {
 	PS1+="\[$Cyan\]\$\[\e[m\] " # Prompt
 	PS1+="\[$BWhite\]" # User input color
 }
-export PROMPT_COMMAND='set_bash_prompt_colors;history -a;history -c;history -r' # https://superuser.com/questions/555310/bash-save-history-without-exit
+export PROMPT_COMMAND='set_bash_prompt_colors'
 
 
 . ~/.bashrcrc 2>/dev/null
