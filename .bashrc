@@ -115,6 +115,7 @@ else
 fi
 
 # Git shortforms.
+alias bfg="java -jar $gitbashrc/bfg-1.12.12.jar"
 alias ga="git add --all :/"
 alias gs="git status" # Laziness.
 alias gc="git add --all :/ && git commit" # Stages everything and commits it. You can add -m "asdf" if you want, and it'll apply to "git commit".
