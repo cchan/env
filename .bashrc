@@ -115,13 +115,14 @@ else
 fi
 
 # Git shortforms.
+alias bfg="java -jar $gitbashrc/bfg-1.12.12.jar"
 alias ga="git add --all :/"
 alias gs="git status" # Laziness.
 alias gc="git add --all :/ && git commit" # Stages everything and commits it. You can add -m "asdf" if you want, and it'll apply to "git commit".
 alias gd="git diff"
-gu () { gc "$@"; git push; } # commits things and pushes them. You can use gu -m "asdf", since all arguments to gu are passed to gc.
+gu () { gc "$@" && git push; } # commits things and pushes them. You can use gu -m "asdf", since all arguments to gu are passed to gc.
 alias gam="gc --amend --no-edit && git push --force" # Shortform for when you mess up and don't want an extra commit in the history
-gmir () { git fetch origin; git reset --hard $(git rev-parse --abbrev-ref --symbolic-full-name @{u}); } # git pull --force
+gmir () { git fetch origin && git reset --hard $(git rev-parse --abbrev-ref --symbolic-full-name @{u}); } # git pull --force
 grp () { br=`git branch | grep "*" | cut -c 3-`; git remote add $1 "git@github.com:$2"; git fetch $1; git push -u $1 $br; } # git remote add and push
 
 # Shortform SSH cloning from GitHub and BitBucket
