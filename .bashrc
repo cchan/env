@@ -19,10 +19,10 @@ test "dumb" == $TERM && return
 # Other Tips:
 
 # use .ssh/config
-# 	host asdf
-# 	hostname 123.456.78.90
-# 	port 22
-# 	user fdsa
+#     host asdf
+#     hostname 123.456.78.90
+#     port 22
+#     user fdsa
 # then you can just type "ssh asdf" and it'll work
 
 
@@ -197,6 +197,9 @@ export PROMPT_COMMAND='set_bash_prompt_colors'
 
 
 . ~/.bashrcrc 2>/dev/null
+
+
+gpg --refresh-keys
 
 
 # Welcome!
