@@ -105,7 +105,7 @@ if [ -f ~/.ssh/id_rsa ] || [ -f ~/.ssh/id_ecdsa ]; then # Only if we actually ha
 	else # Otherwise, everything is preserved until the ssh-agent process is stopped.
 		# echo "Reauthenticating SSH agent..."
 		. $sshtmp > /dev/null
-		if ! ps | grep $SSH_AGENT_PID > /dev/null; then
+		if ! ps -e | grep $SSH_AGENT_PID > /dev/null; then
 			echo -n "No agent with PID $SSH_AGENT_PID is running. "
 			ssh-reset
 		fi
