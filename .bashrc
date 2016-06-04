@@ -200,6 +200,7 @@ export PROMPT_COMMAND='set_bash_prompt_colors'
 . ~/.bashrcrc 2>/dev/null
 
 
+gpg --check-sigs
 echo Use gpg --refresh-keys regularly, and watch output for changes.
 # gpg --refresh-keys
 
