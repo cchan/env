@@ -204,7 +204,8 @@ gpgoutput=$(gpg --check-sigs) 2> /dev/null
 if [ $? != 0 ]; then
   echo GPG is not installed.
 elif [ "$gpgoutput" != "" ]; then
-  echo $gpgoutput
+  echo "$gpgoutput"
+  echo
   echo Use gpg --refresh-keys regularly, and watch output for changes.
 fi
 
