@@ -64,13 +64,16 @@ export BWhite='\e[1;37m'       # White
 
 export ColorReset='\e[00m'     # Reset to default
 
+
 # Title + Version
 # echo -e "\e[38;5;242mGit Bash"
 # git version
 # echo
 
+
 # Gets to the right place
 cd $gitpath
+
 
 # Self-update.
 if [ -f $gitbashrc/.bashrc ]; then
@@ -87,6 +90,7 @@ if [ -f $gitbashrc/.bashrc ]; then
 else
 	echo "Error looking for new version. Your \$gitbashrc path ($gitbashrc) may not be correct, and you may need to update \~/.bashrc manually."
 fi
+
 
 # Makes me sign in with SSH key if necessary; tries to preserve sessions if possible.
 # NOTE THAT this agent feature must be disabled to have security. Any application can ask the ssh-agent for stuff.
@@ -114,6 +118,7 @@ else
 	echo SSH is not currently set up. You might want to do that.
 fi
 
+
 # Git shortforms.
 alias bfg="java -jar $gitbashrc/bfg-1.12.12.jar"
 alias ga="git add --all :/"
@@ -125,12 +130,14 @@ alias gam="gc --amend --no-edit && git push --force" # Shortform for when you me
 gmir () { git fetch origin && git reset --hard $(git rev-parse --abbrev-ref --symbolic-full-name @{u}); } # git pull --force
 grp () { br=`git branch | grep "*" | cut -c 3-`; git remote add $1 "git@github.com:$2"; git fetch $1; git push -u $1 $br; } # git remote add and push
 
+
 # Shortform SSH cloning from GitHub and BitBucket
 # Use like this: clone-gh cchan/misc
 clone-gh () { git clone "git@github.com:$1"; }
 gh-clone () { clone-gh $1; }
 clone-bb () { git clone "git@bitbucket.org:$1"; }
 bb-clone () { clone-bb $1; }
+
 
 # The amazing git-status-all script, which reports on the status of every repo in the current folder.
 gsa () {
@@ -184,7 +191,6 @@ gsa_repodetails () {
 parse_git_branch() {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
-
 # https://wiki.archlinux.org/index.php/Color_Bash_Prompt
 set_bash_prompt_colors () {
     PS1="\[$Yellow\][\$?] " # Exit status for the last command
@@ -197,9 +203,6 @@ set_bash_prompt_colors () {
 export PROMPT_COMMAND='set_bash_prompt_colors'
 
 
-. ~/.bashrcrc 2>/dev/null
-
-
 gpgoutput=$(gpg --check-sigs) 2> /dev/null
 if [ $? != 0 ]; then
   echo GPG is not installed.
@@ -210,8 +213,5 @@ elif [ "$gpgoutput" != "" ]; then
 fi
 
 
-# Welcome!
-# echo
-# echo Welcome! This is the super-awesome .bashrc file installed in your \~ directory.
-# echo Sample commands: gs gc gu gsa npp. Try \"npp \~/.bashrc\" or \"nano \~/.bashrc\" to look at all your aliases and functions.
-# echo
+
+. ~/.bashrcrc 2>/dev/null
