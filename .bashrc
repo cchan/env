@@ -1,12 +1,12 @@
 # .bashrc
-# LastUpdated 2/22/2016 (the Git history is more reliable)
+# LastUpdated 6/19/2016 (the Git history of https://github.com/cchan/misc/blob/master/bashrc/.bashrc is more reliable)
 # Copyright Clive Chan, 2014-present (http://clive.io)
 # License: CC BY-SA 4.0(https://creativecommons.org/licenses/by-sa/4.0/)
 
 # Written for Windows, also works on Amazon Linux.
 # Description: Sets up a convenient Git Bash environment. Copy into ~ (C:/Users/You/), and run msysgit (or just ssh into your ec2 instance)
 
-# Development note: read http://www.tldp.org/LDP/abs/html/abs-guide.html
+# Development note: I should read and use http://www.tldp.org/LDP/abs/html/abs-guide.html
 
 
 # https://www.linuxquestions.org/questions/linux-newbie-8/scp-copy-a-file-from-local-machine-to-remote-machine-214150/
