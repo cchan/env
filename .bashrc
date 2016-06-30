@@ -199,7 +199,7 @@ git-cdc () {
 
   temp_branch="temp-rebasing-branch"
   current_branch="$(git rev-parse --abbrev-ref HEAD)"
-  
+
   if [ -z "$current_branch" ]; then
     return 1
   fi
@@ -212,6 +212,7 @@ git-cdc () {
   git checkout "$current_branch"
   git rebase  --autostash --committer-date-is-author-date "$commit" --onto "$temp_branch"
   git branch -d "$temp_branch"
+  git log "$commit" -n 1 --date=iso --pretty=fuller
 }
 
 
