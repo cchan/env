@@ -1,5 +1,6 @@
+#!/bin/bash
 # .bashrc
-# LastUpdated 6/19/2016 (the Git history of https://github.com/cchan/misc/blob/master/bashrc/.bashrc is more reliable)
+# LastUpdated 6/29/2016 (the Git history of https://github.com/cchan/misc/blob/master/bashrc/.bashrc is more reliable)
 # Copyright Clive Chan, 2014-present (http://clive.io)
 # License: CC BY-SA 4.0(https://creativecommons.org/licenses/by-sa/4.0/)
 
@@ -185,6 +186,34 @@ gsa_repodetails () {
 	done
 
 }
+
+
+# Derived from http://stackoverflow.com/a/24584976/1181387
+git-cdc () {
+  commit="$1" datecal="$2"
+
+  if [ -z "$commit" ] || [ -z "$datecal" ]; then
+    echo Format: git-cdc {commit} {date}
+    return 1
+  fi
+
+  temp_branch="temp-rebasing-branch"
+  current_branch="$(git rev-parse --abbrev-ref HEAD)"
+  
+  if [ -z "$current_branch" ]; then
+    return 1
+  fi
+
+  date_timestamp=$(date -d "$datecal" +%s)
+  date_r=$(date -R -d "$datecal")
+
+  git checkout -b "$temp_branch" "$commit"
+  GIT_COMMITTER_DATE="$date_timestamp" GIT_AUTHOR_DATE="$date_timestamp" git commit --amend --no-edit --date "$date_r"
+  git checkout "$current_branch"
+  git rebase  --autostash --committer-date-is-author-date "$commit" --onto "$temp_branch"
+  git branch -d "$temp_branch"
+}
+
 
 
 # https://askubuntu.com/questions/249174/prepend-current-git-branch-in-terminal
