@@ -141,6 +141,10 @@ bb-clone () { clone-bb $1; }
 
 
 # The amazing git-status-all script, which reports on the status of every repo in the current folder.
+# NOTE: `find` used in this way does not work with find v4.4.2 for some reason.
+#   It does not fork the exported function, and find -name seems to hang.
+#   Lesson learned: always APPEND to $PATH unless you know what you're doing.
+#   [the culprit was ruby devkit with the extremely outdated tools]
 gsa () {
 	export -f gsa_repodetails
 	find -type d -name .git -prune -exec bash -c 'gsa_repodetails "$0"' {} \;
