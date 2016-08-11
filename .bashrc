@@ -34,7 +34,19 @@ sshtmp=/tmp/sshagentthing.sh #yes, this is correct. It's a special Unix director
 
 
 # Editor aliases
-alias npp="\"C:\Program Files (x86)\Notepad++\notepad++.exe\""
+npppath='C:\Program Files (x86)\Notepad++\notepad++.exe'
+if [ -f "$npppath" ]; then
+  echo on windows
+  alias edit="'$npppath'"
+  alias npp="'$npppath'"
+  if ! command -v nano; then
+    alias nano="'$npppath'";
+  fi
+elif [ -v nano ]; then
+  echo on ec2
+  alias edit=nano
+  alias npp=nano
+fi
 # alias robotc="\"C:\Program Files (x86)\Robomatter Inc\ROBOTC Development Environment 4.X\RobotC.exe\""
 # alias sublime="\"C:\Program Files\Sublime Text 3\sublime_text.exe\""
 
