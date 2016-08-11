@@ -131,6 +131,8 @@ alias gam="gc --amend --no-edit && git push --force" # Shortform for when you me
 gmir () { git fetch origin && git reset --hard $(git rev-parse --abbrev-ref --symbolic-full-name @{u}); } # git pull --force
 grp () { br=`git branch | grep "*" | cut -c 3-`; git remote add $1 "git@github.com:$2"; git fetch $1; git push -u $1 $br; } # git remote add and push
 
+# Lazy shortforms
+alias grep='grep --color'
 
 # Shortform SSH cloning from GitHub and BitBucket
 # Use like this: clone-gh cchan/misc
