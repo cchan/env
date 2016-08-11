@@ -36,14 +36,12 @@ sshtmp=/tmp/sshagentthing.sh #yes, this is correct. It's a special Unix director
 # Editor aliases
 npppath='C:\Program Files (x86)\Notepad++\notepad++.exe'
 if [ -f "$npppath" ]; then
-  echo on windows
   alias edit="'$npppath'"
   alias npp="'$npppath'"
   if ! command -v nano; then
     alias nano="'$npppath'";
   fi
-elif [ -v nano ]; then
-  echo on ec2
+elif command -v nano; then
   alias edit=nano
   alias npp=nano
 fi
@@ -248,6 +246,7 @@ set_bash_prompt_colors () {
 	PS1+="\[$Cyan\]\$\[\e[m\] " # Prompt
 	PS1+="\[$BWhite\]" # User input color
 }
+export -f set_bash_prompt_colors
 export PROMPT_COMMAND='set_bash_prompt_colors'
 
 
