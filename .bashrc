@@ -144,7 +144,7 @@ gmir () { git fetch origin && git reset --hard $(git rev-parse --abbrev-ref --sy
 grp () { br=`git branch | grep "*" | cut -c 3-`; git remote add $1 "git@github.com:$2"; git fetch $1; git push -u $1 $br; } # git remote add and push
 
 # Other shortforms
-alias grep='grep --color'
+alias grep='grep --color --exclude-dir=.git --exclude-dir=node_modules'
 
 # Shortform SSH cloning from GitHub and BitBucket
 # Use like this: clone-gh cchan/misc
