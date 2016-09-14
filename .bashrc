@@ -138,7 +138,7 @@ fi
 
 # Git shortforms.
 GIT_PAGER=less
-type git >/dev/null 2>&1 && alias git=hub
+type hub >/dev/null 2>&1 && alias git=hub
 alias bfg="java -jar $gitbashrc/bfg-1.12.12.jar"
 alias ga="git add --all :/"
 alias gs="git status" # Laziness.
