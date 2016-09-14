@@ -27,6 +27,12 @@ test "dumb" == $TERM && return
 # then you can just type "ssh asdf" and it'll work
 
 
+# "Avoid Losing Files" - cs137
+alias cp="cp -i"
+alias mv="mv -i"
+alias rm="rm -i"
+
+
 # Paths
 gitpath=~/github
 gitbashrc=$gitpath/misc/bashrc
