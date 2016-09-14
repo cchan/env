@@ -271,5 +271,5 @@ fi
 # "Avoid Losing Files" - cs137
 alias cp="cp -i"
 alias mv="mv -i"
-alias rm="rm -i"
+# alias rm="rm -i"
 
