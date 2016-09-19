@@ -38,10 +38,10 @@ npppath='C:\Program Files (x86)\Notepad++\notepad++.exe'
 if [ -f "$npppath" ]; then
   alias edit="'$npppath'"
   alias npp="'$npppath'"
-  if ! command -v nano; then
+  if ! command -v nano >/dev/null; then
     alias nano="'$npppath'";
   fi
-elif command -v nano; then
+elif command -v nano >/dev/null; then
   alias edit=nano
   alias npp=nano
 fi
