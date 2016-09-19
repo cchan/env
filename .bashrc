@@ -252,14 +252,16 @@ set_bash_prompt_colors () {
 export -f set_bash_prompt_colors
 export PROMPT_COMMAND='set_bash_prompt_colors'
 
-
-gpgoutput=$(gpg --check-sigs) 2> /dev/null
-if [ $? != 0 ]; then
-  echo GPG is not installed.
-elif [ "$gpgoutput" != "" ]; then
-  echo "$gpgoutput"
-  echo
-  echo Use gpg --refresh-keys regularly, and watch output for changes.
+if ! command -v gpg >/dev/null; then
+  echo 'GPG is not installed.'
+else
+  gpgoutput=$(gpg --check-sigs)
+  if [ $? != 0 ]; then
+    echo 'ERROR verifying GPG keyring signatures!'
+    echo $gpgoutput
+  else
+    echo 'GPG keyring verified. Remember to `gpg --refresh-keys` and watch for updates.'
+  fi
 fi
 
 
