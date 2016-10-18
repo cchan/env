@@ -234,6 +234,18 @@ git-cdc () {
   git log "$commit" -n 1 --date=iso --pretty=fuller
 }
 
+# Line-counter. Just run "lines" and it'll descend into all Git repos under it.
+lines_each () {
+  cd "$1/.."
+  echo -n "$1" | sed 's/..\(.*\)...../\1/'
+  echo -n ": "
+  git ls-files | awk '!/min\.js|min\.css|jpeg|jpg|JPG|png|jar/' | xargs cat 2>/dev/null | wc -l
+}
+lines () {
+  export -f lines_each
+  find -type d -name .git -prune -exec bash -c 'lines_each "$0"' {} \;
+}
+
 
 
 # https://askubuntu.com/questions/249174/prepend-current-git-branch-in-terminal
