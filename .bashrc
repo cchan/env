@@ -33,6 +33,10 @@ gitbashrc=$gitpath/misc/bashrc
 sshtmp=/tmp/sshagentthing.sh #yes, this is correct. It's a special Unix directory.
 
 
+# Python
+alias py="python -u"
+
+
 # Editor aliases
 npppath='C:\Program Files (x86)\Notepad++\notepad++.exe'
 if [ -f "$npppath" ]; then
