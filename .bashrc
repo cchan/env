@@ -285,6 +285,12 @@ fi
 . ~/.bashrcrc 2>/dev/null
 
 
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+
+
 # Last, to avoid interfering with the automated stuff
 # "Avoid Losing Files" - cs137
 alias cp="cp -i"
