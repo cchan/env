@@ -267,16 +267,14 @@ parse_git_branch() {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
 # https://wiki.archlinux.org/index.php/Color_Bash_Prompt
-set_bash_prompt_colors () {
-    PS1="\[$Yellow\][\$?] " # Exit status for the last command
-    PS1+="\[$BBlue\]\\u@\\h " # User@Host
-    PS1+="\[$Purple\]\w\[\e[m\] " # Path
-	PS1+="\[$Cyan\]\$(parse_git_branch)" # Git branch if applicable
-	PS1+="\[$Cyan\]\$\[\e[m\] " # Prompt
-	PS1+="\[$BWhite\]" # User input color
-}
-typeset -xf set_bash_prompt_colors
-export PROMPT_COMMAND='set_bash_prompt_colors'
+PS1="\[$Yellow\][\$?] " # Exit status for the last command
+PS1+="\[$BBlue\]\\u@\\h " # User@Host
+PS1+="\[$Purple\]\w\[\e[m\] " # Path
+PS1+="\[$Cyan\]\$(parse_git_branch)" # Git branch if applicable
+PS1+="\[$Cyan\]\$\[\e[m\] " # Prompt
+PS1+="\[$BWhite\]" # User input color
+PS1+="\033]0;${USERNAME}@${HOSTNAME}: ${PWD}\007" # Set title bar
+PROMPT_COMMAND="history -a;history -c;history -r;" # https://superuser.com/questions/555310/bash-save-history-without-exit
 
 if ! command -v gpg >/dev/null; then
   echo 'GPG is not installed.'
