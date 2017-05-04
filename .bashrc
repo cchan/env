@@ -105,7 +105,7 @@ if [ -f $gitbashrc/.bashrc ]; then
 		echo "Error comparing with new version. (???)"
 	fi
 else
-	echo "Error looking for new version. Your \$gitbashrc path ($gitbashrc) may not be correct, and you may need to update \~/.bashrc manually."
+	echo "Error looking for new version. Your \$gitbashrc path ($gitbashrc) may not be correct, and you may need to update ~/.bashrc manually."
 fi
 
 
