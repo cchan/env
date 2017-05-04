@@ -291,9 +291,9 @@ else
 fi
 
 
-
-. ~/.bashrcrc 2>/dev/null
-
+if [ -e ~/.bashrcrc ]; then
+  . ~/.bashrcrc 2>/dev/null
+fi
 
 
 export NVM_DIR="$HOME/.nvm"
@@ -307,3 +307,6 @@ alias cp="cp -i"
 alias mv="mv -i"
 # alias rm="rm -i"
 
+if [ -n "$DEBUG" ]; then
+  echo "[debug] FINISHED!"
+fi
