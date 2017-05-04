@@ -268,7 +268,7 @@ parse_git_branch() {
 }
 # https://wiki.archlinux.org/index.php/Color_Bash_Prompt
 PS1="\[$Yellow\][\$?] " # Exit status for the last command
-PS1+="\[$BBlue\]\\u@\\h " # User@Host
+PS1+="\[$BBlue\]\u@\h " # User@Host
 PS1+="\[$Purple\]\w " # Path
 PS1+="\[$Cyan\]\$(parse_git_branch)" # Git branch if applicable
 PS1+="\[$Cyan\]\$ " # Prompt
