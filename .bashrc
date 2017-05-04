@@ -4,7 +4,7 @@
 # Copyright Clive Chan, 2014-present (http://clive.io)
 # License: CC BY-SA 4.0(https://creativecommons.org/licenses/by-sa/4.0/)
 
-# Written for Windows (10), also works on Linux (Amazon AMI, RedHat Enterprise), also works on ksh.
+# Written for Windows (10), also works on Linux (Amazon AMI, RedHat Enterprise), also (mostly) works on ksh.
 # Description: Sets up a convenient Git Bash environment. Copy into ~ (C:/Users/You/), and run msysgit (or just ssh into your ec2 instance)
 
 # Development note: I should read and use http://www.tldp.org/LDP/abs/html/abs-guide.html
@@ -267,13 +267,14 @@ parse_git_branch() {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
 # https://wiki.archlinux.org/index.php/Color_Bash_Prompt
+# (apparently the brackets indicate non-printing characters and help guarantee alignment. No idea how to get the prompt to look right in ksh.)
 PS1="\[$Yellow\][\$?] " # Exit status for the last command
 PS1+="\[$BBlue\]\u@\h " # User@Host
 PS1+="\[$Purple\]\w " # Path
 PS1+="\[$Cyan\]\$(parse_git_branch)" # Git branch if applicable
 PS1+="\[$Cyan\]\$ " # Prompt
 PS1+="\[$BWhite\]" # User input color
-PS1+=']0;${USER}@${HOST}: ${PWD##${HOME}/}' # Set title bar, should work in ksh too (http://tldp.org/HOWTO/Xterm-Title-4.html)
+PS1+='\[]0;${USER}@${HOST}: ${PWD##${HOME}/}\]' # Set title bar, should work in ksh too (http://tldp.org/HOWTO/Xterm-Title-4.html)
 PROMPT_COMMAND="history -a;history -c;history -r;" # https://superuser.com/questions/555310/bash-save-history-without-exit
 
 if ! command -v gpg >/dev/null; then
