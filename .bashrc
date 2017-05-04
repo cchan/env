@@ -117,10 +117,10 @@ fi
 # "ssh-agent" returns a bash script that sets global variables, so I store it into a tmp file auto-erased at each reboot.
 if [ -f ~/.ssh/id_rsa ] || [ -f ~/.ssh/id_ecdsa ]; then # Only if we actually have some SSH stuff to do
 	ssh_start () { ssh-agent > $sshtmp; . $sshtmp > /dev/null; ssh-add &> /dev/null; echo PID $SSH_AGENT_PID; } # -t 1200 may be added to ssh-agent.
-	ssh_end () { rm $sshtmp; kill $SSH_AGENT_PID; }
-	ssh_reset () { echo -n "Resetting SSH agent... "; ssh_end; ssh_start; }
   alias ssh-start=ssh_start
+	ssh_end () { rm $sshtmp; kill $SSH_AGENT_PID; }
   alias ssh-end=ssh_end
+	ssh_reset () { echo -n "Resetting SSH agent... "; ssh_end; ssh_start; }
   alias ssh-reset=ssh_reset
 	if [ ! -f $sshtmp ]; then # Only do it if daemon doesn't already exist
 		echo
@@ -158,10 +158,14 @@ alias grep='grep --color --exclude-dir=.git --exclude-dir=node_modules'
 
 # Shortform SSH cloning from GitHub and BitBucket
 # Use like this: clone-gh cchan/misc
-clone-gh () { git clone "git@github.com:$1"; }
-gh-clone () { clone-gh $1; }
-clone-bb () { git clone "git@bitbucket.org:$1"; }
-bb-clone () { clone-bb $1; }
+clone_gh () { git clone "git@github.com:$1"; }
+alias clone-gh=clone_gh
+gh_clone () { clone-gh $1; }
+alias gh-clone=gh_clone
+clone_bb () { git clone "git@bitbucket.org:$1"; }
+alias clone-bb=clone_bb
+bb_clone () { clone-bb $1; }
+alias bb-clone=bb_clone
 
 
 # The amazing git-status-all script, which reports on the status of every repo in the current folder.
