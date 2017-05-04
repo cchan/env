@@ -60,30 +60,30 @@ fi
 # COLORS!
 # https://wiki.archlinux.org/index.php/Color_Bash_Prompt
 # Regular Colors
-export Black='\e[0;30m'        # Black
-export Red='\e[0;31m'          # Red
-export Green='\e[0;32m'        # Green
-export Yellow='\e[0;33m'       # Yellow
-export Blue='\e[0;34m'         # Blue
-export Purple='\e[0;35m'       # Purple
-export Cyan='\e[0;36m'         # Cyan
-export White='\e[0;37m'        # White
+export Black='[0;30m'        # Black
+export Red='[0;31m'          # Red
+export Green='[0;32m'        # Green
+export Yellow='[0;33m'       # Yellow
+export Blue='[0;34m'         # Blue
+export Purple='[0;35m'       # Purple
+export Cyan='[0;36m'         # Cyan
+export White='[0;37m'        # White
 
 # Bold
-export BBlack='\e[1;30m'       # Black
-export BRed='\e[1;31m'         # Red
-export BGreen='\e[1;32m'       # Green
-export BYellow='\e[1;33m'      # Yellow
-export BBlue='\e[1;34m'        # Blue
-export BPurple='\e[1;35m'      # Purple
-export BCyan='\e[1;36m'        # Cyan
-export BWhite='\e[1;37m'       # White
+export BBlack='[1;30m'       # Black
+export BRed='[1;31m'         # Red
+export BGreen='[1;32m'       # Green
+export BYellow='[1;33m'      # Yellow
+export BBlue='[1;34m'        # Blue
+export BPurple='[1;35m'      # Purple
+export BCyan='[1;36m'        # Cyan
+export BWhite='[1;37m'       # White
 
-export ColorReset='\e[00m'     # Reset to default
+export ColorReset='[00m'     # Reset to default
 
 
 # Title + Version
-# echo -e "\e[38;5;242mGit Bash"
+# echo -e "38;5;242mGit Bash"
 # git version
 # echo
 
@@ -269,11 +269,11 @@ parse_git_branch() {
 # https://wiki.archlinux.org/index.php/Color_Bash_Prompt
 PS1="\[$Yellow\][\$?] " # Exit status for the last command
 PS1+="\[$BBlue\]\\u@\\h " # User@Host
-PS1+="\[$Purple\]\w\[\e[m\] " # Path
+PS1+="\[$Purple\]\w " # Path
 PS1+="\[$Cyan\]\$(parse_git_branch)" # Git branch if applicable
-PS1+="\[$Cyan\]\$\[\e[m\] " # Prompt
+PS1+="\[$Cyan\]\$ " # Prompt
 PS1+="\[$BWhite\]" # User input color
-PS1+="\033]0;${USERNAME}@${HOSTNAME}: ${PWD}\007" # Set title bar
+PS1+=']0;${USER}@${HOST}: ${PWD##${HOME}/}' # Set title bar, should work in ksh too (http://tldp.org/HOWTO/Xterm-Title-4.html)
 PROMPT_COMMAND="history -a;history -c;history -r;" # https://superuser.com/questions/555310/bash-save-history-without-exit
 
 if ! command -v gpg >/dev/null; then
