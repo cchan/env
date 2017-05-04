@@ -4,7 +4,7 @@
 # Copyright Clive Chan, 2014-present (http://clive.io)
 # License: CC BY-SA 4.0(https://creativecommons.org/licenses/by-sa/4.0/)
 
-# Written for Windows, also works on Amazon Linux.
+# Written for Windows (10), also works on Linux (Amazon AMI, RedHat Enterprise), also works on ksh.
 # Description: Sets up a convenient Git Bash environment. Copy into ~ (C:/Users/You/), and run msysgit (or just ssh into your ec2 instance)
 
 # Development note: I should read and use http://www.tldp.org/LDP/abs/html/abs-guide.html
@@ -36,6 +36,8 @@ sshtmp=/tmp/sshagentthing.sh #yes, this is correct. It's a special Unix director
 # Python
 alias py="python -u"
 
+# Go
+export GOPATH=~/.go
 
 # Editor aliases
 npppath='C:\Program Files (x86)\Notepad++\notepad++.exe'
@@ -114,19 +116,22 @@ fi
 # If something messes up, ssh-reset to remove the starter file and restart the shell.
 # "ssh-agent" returns a bash script that sets global variables, so I store it into a tmp file auto-erased at each reboot.
 if [ -f ~/.ssh/id_rsa ] || [ -f ~/.ssh/id_ecdsa ]; then # Only if we actually have some SSH stuff to do
-	ssh-start () { ssh-agent > $sshtmp; . $sshtmp > /dev/null; ssh-add &> /dev/null; echo PID $SSH_AGENT_PID; } # -t 1200 may be added to ssh-agent.
-	ssh-end () { rm $sshtmp; kill $SSH_AGENT_PID; }
-	ssh-reset () { echo -n "Resetting SSH agent... "; ssh-end; ssh-start; }
+	ssh_start () { ssh-agent > $sshtmp; . $sshtmp > /dev/null; ssh-add &> /dev/null; echo PID $SSH_AGENT_PID; } # -t 1200 may be added to ssh-agent.
+	ssh_end () { rm $sshtmp; kill $SSH_AGENT_PID; }
+	ssh_reset () { echo -n "Resetting SSH agent... "; ssh_end; ssh_start; }
+  alias ssh-start=ssh_start
+  alias ssh-end=ssh_end
+  alias ssh-reset=ssh_reset
 	if [ ! -f $sshtmp ]; then # Only do it if daemon doesn't already exist
 		echo
 		echo "New SSH agent"
-		ssh-start
+		ssh_start
 	else # Otherwise, everything is preserved until the ssh-agent process is stopped.
 		# echo "Reauthenticating SSH agent..."
 		. $sshtmp > /dev/null
 		if ! ps -e | grep $SSH_AGENT_PID > /dev/null; then
 			echo -n "No agent with PID $SSH_AGENT_PID is running. "
-			ssh-reset
+			ssh_reset
 		fi
 	fi
 else
@@ -165,7 +170,7 @@ bb-clone () { clone-bb $1; }
 #   Lesson learned: always APPEND to $PATH unless you know what you're doing.
 #   [the culprit was ruby devkit with the extremely outdated tools]
 gsa () {
-	export -f gsa_repodetails
+	typeset -xf gsa_repodetails
 	find -type d -name .git -prune -exec bash -c 'gsa_repodetails "$0"' {} \;
 }
 gsa_repodetails () {
@@ -212,7 +217,7 @@ gsa_repodetails () {
 
 
 # Derived from http://stackoverflow.com/a/24584976/1181387
-git-cdc () {
+git_cdc () {
   commit="$1" datecal="$2"
 
   if [ -z "$commit" ] || [ -z "$datecal" ]; then
@@ -237,6 +242,7 @@ git-cdc () {
   git branch -d "$temp_branch"
   git log "$commit" -n 1 --date=iso --pretty=fuller
 }
+alias git-cdc=git_cdc
 
 # Line-counter. Just run "lines" and it'll descend into all Git repos under it.
 lines_each () {
@@ -246,7 +252,7 @@ lines_each () {
   git ls-files | awk '!/min\.js|min\.css|jpeg|jpg|JPG|png|jar/' | xargs cat 2>/dev/null | wc -l
 }
 lines () {
-  export -f lines_each
+  typeset -xf lines_each
   find -type d -name .git -prune -exec bash -c 'lines_each "$0"' {} \;
 }
 
@@ -265,7 +271,7 @@ set_bash_prompt_colors () {
 	PS1+="\[$Cyan\]\$\[\e[m\] " # Prompt
 	PS1+="\[$BWhite\]" # User input color
 }
-export -f set_bash_prompt_colors
+typeset -xf set_bash_prompt_colors
 export PROMPT_COMMAND='set_bash_prompt_colors'
 
 if ! command -v gpg >/dev/null; then
