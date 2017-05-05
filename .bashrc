@@ -274,9 +274,7 @@ PS1+="\[${Purple}\]\w " # Path
 PS1+="\[${Cyan}\]\$(parse_git_branch)" # Git branch if applicable
 PS1+="\[${Cyan}\]\$ " # Prompt
 PS1+="\[${BWhite}\]" # User input color
-USER=$(whoami)
-HOST=$(hostname)
-PS1+='\[]0;${USER}@${HOST}: \w\]' # Set title bar, should work in ksh too (http://tldp.org/HOWTO/Xterm-Title-4.html)
+PS1+='\[]0;$(whoami)@$(hostname): \w\]' # Set title bar, should work in ksh too (http://tldp.org/HOWTO/Xterm-Title-4.html)
 PROMPT_COMMAND="history -a;history -c;history -r;" # https://superuser.com/questions/555310/bash-save-history-without-exit
 
 if ! command -v gpg >/dev/null; then
