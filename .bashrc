@@ -268,13 +268,15 @@ parse_git_branch() {
 }
 # https://wiki.archlinux.org/index.php/Color_Bash_Prompt
 # (apparently the brackets indicate non-printing characters and help guarantee alignment. No idea how to get the prompt to look right in ksh.)
-PS1="\[$Yellow\][\$?] " # Exit status for the last command
-PS1+="\[$BBlue\]\u@\h " # User@Host
-PS1+="\[$Purple\]\w " # Path
-PS1+="\[$Cyan\]\$(parse_git_branch)" # Git branch if applicable
-PS1+="\[$Cyan\]\$ " # Prompt
-PS1+="\[$BWhite\]" # User input color
-PS1+='\[]0;${USER}@${HOST}: ${PWD##${HOME}/}\]' # Set title bar, should work in ksh too (http://tldp.org/HOWTO/Xterm-Title-4.html)
+PS1="\[${Yellow}\][\$?] " # Exit status for the last command
+PS1+="\[${BBlue}\]\u@\h " # User@Host
+PS1+="\[${Purple}\]\w " # Path
+PS1+="\[${Cyan}\]\$(parse_git_branch)" # Git branch if applicable
+PS1+="\[${Cyan}\]\$ " # Prompt
+PS1+="\[${BWhite}\]" # User input color
+USER=$(whoami)
+HOST=$(hostname)
+PS1+='\[]0;${USER}@${HOST}: \w\]' # Set title bar, should work in ksh too (http://tldp.org/HOWTO/Xterm-Title-4.html)
 PROMPT_COMMAND="history -a;history -c;history -r;" # https://superuser.com/questions/555310/bash-save-history-without-exit
 
 if ! command -v gpg >/dev/null; then
