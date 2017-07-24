@@ -92,23 +92,6 @@ export ColorReset='[00m'     # Reset to default
 cd $gitpath
 
 
-# Self-update.
-if [ -f $gitbashrc/.bashrc ]; then
-	cmp --silent $gitbashrc/.bashrc ~/.bashrc
-	if [ $? -eq 0 ]; then
-		: # echo ".bashrc is up to date."
-	elif [ $? -eq 1 ]; then
-		cp -v $gitbashrc/.bashrc ~/.bashrc
-		echo "Self-updated. Restarting bash...";
-		exec bash -l
-	else
-		echo "Error comparing with new version. (???)"
-	fi
-else
-	echo "Error looking for new version. Your \$gitbashrc path ($gitbashrc) may not be correct, and you may need to update ~/.bashrc manually."
-fi
-
-
 # Makes me sign in with SSH key if necessary; tries to preserve sessions if possible.
 # NOTE THAT this agent feature must be disabled to have security. Any application can ask the ssh-agent for stuff.
 	# Actually, this may not be true. :/
@@ -135,7 +118,27 @@ if [ -f ~/.ssh/id_rsa ] || [ -f ~/.ssh/id_ecdsa ]; then # Only if we actually ha
 		fi
 	fi
 else
-	echo SSH is not currently set up. You might want to do that.
+	echo "SSH is not currently set up. You might want to do that."
+fi
+
+
+# Self-update.
+if [ -f $gitbashrc/.bashrc ]; then
+  pushd $gitbashrc >/dev/null
+  echo -e "Pulling bashrc... "$(git pull 2>/dev/null)
+  popd >/dev/null
+	cmp --silent $gitbashrc/.bashrc ~/.bashrc
+	if [ $? -eq 0 ]; then
+		: # echo ".bashrc is up to date."
+	elif [ $? -eq 1 ]; then
+		cp -v $gitbashrc/.bashrc ~/.bashrc
+		echo "Self-updated. Restarting bash...";
+		exec bash -l
+	else
+		echo "Error comparing with new version. (???)"
+	fi
+else
+	echo "Error looking for new version. Your \$gitbashrc path ($gitbashrc) may not be correct, and you may need to update ~/.bashrc manually."
 fi
 
 
@@ -152,6 +155,7 @@ gu () { gc "$@" && git push; } # commits things and pushes them. You can use gu 
 alias gam="gc --amend --no-edit && git push --force" # Shortform for when you mess up and don't want an extra commit in the history
 gmir () { git fetch origin && git reset --hard $(git rev-parse --abbrev-ref --symbolic-full-name @{u}); } # git pull --force
 grp () { br=`git branch | grep "*" | cut -c 3-`; git remote add $1 "git@github.com:$2"; git fetch $1; git push -u $1 $br; } # git remote add and push
+gchmod () { git update-index --chmod=$1 $2; }
 
 # Other shortforms
 alias grep='grep --color --exclude-dir=.git --exclude-dir=node_modules'
