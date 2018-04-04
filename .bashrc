@@ -4,8 +4,8 @@
 # Copyright Clive Chan, 2014-present (http://clive.io)
 # License: CC BY-SA 4.0(https://creativecommons.org/licenses/by-sa/4.0/)
 
-# Written for Windows (10), also works on Linux (Amazon AMI, RedHat Enterprise), also (mostly) works on ksh.
-# Description: Sets up a convenient Git Bash environment. Copy into ~ (C:/Users/You/), and run msysgit (or just ssh into your ec2 instance)
+# Written for Windows 10 Bash on Ubuntu on Windows, also works on regular Linux (Amazon AMI, RedHat Enterprise, Ubuntu), also (mostly) works on ksh. Originally written for Cygwin but not sure if that works anymore.
+# Description: Sets up a convenient environment. Copy into ~ (C:/Users/You/), and run msysgit (or just ssh into your ec2 instance). Modify paths of things as necessary.
 
 # Development note: I should read and use http://www.tldp.org/LDP/abs/html/abs-guide.html
 
