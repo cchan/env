@@ -295,14 +295,19 @@ fi
 
 
 if [ -e ~/.bashrcrc ]; then
-  . ~/.bashrcrc 2>/dev/null
+  . ~/.bashrcrc
 fi
 
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
+command -v pm2 >/dev/null && . <(pm2 completion)
 
+if [-e ~/.gitcompletion.bash ]; then
+    wget -O ~/.gitcompletion.bash https://raw.githubusercontent.com/git/git/87cc76fa3a79eb86136e55432bd4e4ecc84744cd/contrib/completion/git-completion.bash
+fi
+. ~/.gitcompletion.bash
 
 # Last, to avoid interfering with the automated stuff
 # "Avoid Losing Files" - cs137
