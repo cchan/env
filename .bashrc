@@ -1,6 +1,6 @@
 #!/bin/bash
 # .bashrc
-# LastUpdated 6/29/2016 (the Git history of https://github.com/cchan/misc/blob/master/bashrc/.bashrc is more reliable)
+# LastUpdated: see the Git history of https://github.com/cchan/misc/blob/master/bashrc/.bashrc is more reliable
 # Copyright Clive Chan, 2014-present (http://clive.io)
 # License: CC BY-SA 4.0(https://creativecommons.org/licenses/by-sa/4.0/)
 
@@ -14,6 +14,11 @@
 # "dumb" terminal type for SCP doesn't support "clear" and other things
 test "dumb" == $TERM && return
 
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
 
 ####### CUSTOMIZABLES #######
 
@@ -28,7 +33,7 @@ test "dumb" == $TERM && return
 
 
 # Paths
-gitpath=~/github
+gitpath=~/code
 gitbashrc=$gitpath/misc/bashrc
 sshtmp=/tmp/sshagentthing.sh #yes, this is correct. It's a special Unix directory.
 
@@ -281,6 +286,56 @@ PS1+="\[${BWhite}\]" # User input color
 PS1+='\[]0;$(whoami)@$(hostname): \w\]' # Set title bar, should work in ksh too (http://tldp.org/HOWTO/Xterm-Title-4.html)
 PROMPT_COMMAND="history -a;history -c;history -r;" # https://superuser.com/questions/555310/bash-save-history-without-exit
 
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=10000
+HISTFILESIZE=20000
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+#shopt -s globstar
+
+# make less more friendly for non-text input files, see lesspipe(1)
+#[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+
+# enable color support of ls and also add handy aliases
+alias ls='ls --color=auto'
+alias dir='dir --color=auto'
+alias vdir='vdir --color=auto'
+
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+# colored GCC warnings and errors
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+# some more ls aliases
+alias ll='ls -la'
+alias la='ls -a'
+#alias l='ls -CF'
+
+
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+
 if ! command -v gpg >/dev/null; then
   echo 'GPG is not installed.'
 else
@@ -302,6 +357,18 @@ fi
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
 command -v pm2 >/dev/null && . <(pm2 completion)
 
 if [ ! -e ~/.gitcompletion.bash ]; then
@@ -316,5 +383,5 @@ alias mv="mv -i"
 # alias rm="rm -i"
 
 if [ -n "$DEBUG" ]; then
-  echo "[debug] FINISHED!"
+  echo "[.bashrc] FINISHED!"
 fi
