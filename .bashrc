@@ -286,7 +286,7 @@ function virtualenv_info(){
         # In case you don't have one activated
         venv=''
     fi
-    [[ -n "$venv" ]] && echo " {venv:$venv}"
+    [[ -n "$venv" ]] && echo " {$venv}"
 }
 
 # disable the default virtualenv prompt change
@@ -303,7 +303,7 @@ PS1="\[${Yellow}\][\$?] " # Exit status for the last command
 PS1+="\[${BBlue}\]\u@\h " # User@Host
 PS1+="\[${Purple}\]\w " # Path
 PS1+="\[${Cyan}\]\$(parse_git_branch)" # Git branch if applicable
-PS1+="\[${BGreen}\]\${virtualenv_info}" # Virtual env if applicable
+PS1+="\[${BGreen}\]\$(virtualenv_info)" # Virtual env if applicable
 PS1+="\[${Cyan}\]\$ " # Prompt
 PS1+="\[${BWhite}\]" # User input color
 PS1+='\[]0;$(whoami)@$(hostname): \w\]' # Set title bar, should work in ksh too (http://tldp.org/HOWTO/Xterm-Title-4.html)
