@@ -270,6 +270,30 @@ lines () {
 }
 
 
+# https://www.pyimagesearch.com/2017/09/04/raspbian-stretch-install-opencv-3-python-on-your-raspberry-pi/
+# https://stackoverflow.com/a/20026992/1181387
+
+# virtualenv and virtualenvwrapper
+export WORKON_HOME=$HOME/.virtualenvs
+source /usr/local/bin/virtualenvwrapper.sh
+
+function virtualenv_info(){
+    # Get Virtual Env
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+        # Strip out the path and just leave the env name
+        venv="${VIRTUAL_ENV##*/}"
+    else
+        # In case you don't have one activated
+        venv=''
+    fi
+    [[ -n "$venv" ]] && echo " {venv:$venv}"
+}
+
+# disable the default virtualenv prompt change
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+
+local VENV="\$(virtualenv_info)";
+
 
 # https://askubuntu.com/questions/249174/prepend-current-git-branch-in-terminal
 parse_git_branch() {
@@ -281,6 +305,7 @@ PS1="\[${Yellow}\][\$?] " # Exit status for the last command
 PS1+="\[${BBlue}\]\u@\h " # User@Host
 PS1+="\[${Purple}\]\w " # Path
 PS1+="\[${Cyan}\]\$(parse_git_branch)" # Git branch if applicable
+PS1+="\[${BGreen}\]\${VENV}" # Virtual env if applicable
 PS1+="\[${Cyan}\]\$ " # Prompt
 PS1+="\[${BWhite}\]" # User input color
 PS1+='\[]0;$(whoami)@$(hostname): \w\]' # Set title bar, should work in ksh too (http://tldp.org/HOWTO/Xterm-Title-4.html)
