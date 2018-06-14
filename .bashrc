@@ -292,8 +292,6 @@ function virtualenv_info(){
 # disable the default virtualenv prompt change
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
-local VENV="\$(virtualenv_info)";
-
 
 # https://askubuntu.com/questions/249174/prepend-current-git-branch-in-terminal
 parse_git_branch() {
@@ -305,7 +303,7 @@ PS1="\[${Yellow}\][\$?] " # Exit status for the last command
 PS1+="\[${BBlue}\]\u@\h " # User@Host
 PS1+="\[${Purple}\]\w " # Path
 PS1+="\[${Cyan}\]\$(parse_git_branch)" # Git branch if applicable
-PS1+="\[${BGreen}\]\${VENV}" # Virtual env if applicable
+PS1+="\[${BGreen}\]\${virtualenv_info}" # Virtual env if applicable
 PS1+="\[${Cyan}\]\$ " # Prompt
 PS1+="\[${BWhite}\]" # User input color
 PS1+='\[]0;$(whoami)@$(hostname): \w\]' # Set title bar, should work in ksh too (http://tldp.org/HOWTO/Xterm-Title-4.html)
