@@ -33,7 +33,7 @@ esac
 
 
 # Paths
-gitpath=~/code
+gitpath=/mnt/c/Users/Clive/code
 gitbashrc=$gitpath/misc/bashrc
 sshtmp=/tmp/sshagentthing.sh #yes, this is correct. It's a special Unix directory.
 
@@ -286,7 +286,7 @@ function virtualenv_info(){
         # In case you don't have one activated
         venv=''
     fi
-    [[ -n "$venv" ]] && echo " {$venv}"
+    [[ -n "$venv" ]] && echo "{$venv} "
 }
 
 # disable the default virtualenv prompt change
@@ -295,7 +295,10 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 # https://askubuntu.com/questions/249174/prepend-current-git-branch-in-terminal
 parse_git_branch() {
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+  branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+  if [ $? -eq 0 ]; then
+    echo "("$branch") " | tr -d '\n'
+  fi
 }
 # https://wiki.archlinux.org/index.php/Color_Bash_Prompt
 # (apparently the brackets indicate non-printing characters and help guarantee alignment. No idea how to get the prompt to look right in ksh.)
@@ -303,7 +306,7 @@ PS1="\[${Yellow}\][\$?] " # Exit status for the last command
 PS1+="\[${BBlue}\]\u@\h " # User@Host
 PS1+="\[${Purple}\]\w " # Path
 PS1+="\[${Cyan}\]\$(parse_git_branch)" # Git branch if applicable
-PS1+="\[${BGreen}\]\$(virtualenv_info)" # Virtual env if applicable
+PS1+="\[${Green}\]\$(virtualenv_info)" # Virtual env if applicable
 PS1+="\[${Cyan}\]\$ " # Prompt
 PS1+="\[${BWhite}\]" # User input color
 PS1+='\[]0;$(whoami)@$(hostname): \w\]' # Set title bar, should work in ksh too (http://tldp.org/HOWTO/Xterm-Title-4.html)
