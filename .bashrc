@@ -36,10 +36,10 @@ if [ -e ~/.bashrc.conf ]; then
 fi
 
 # Paths
-${gitpath:=~/code}
+gitpath=${gitpath:-~/code}
   # For WSL, strongly recommend usermodding to use (/mnt)/c/Users/Clive as homedir
   # Also, copy wsl.conf to /etc/wsl.conf!
-${gitbashrc:=$gitpath/misc/bashrc}
+gitbashrc=${gitbashrc:-$gitpath/misc/bashrc}
 sshtmp=/tmp/sshagentthing.sh #yes, this is correct. It's a special Unix directory.
 
 
@@ -302,8 +302,10 @@ lines () {
 # https://stackoverflow.com/a/20026992/1181387
 
 # virtualenv and virtualenvwrapper
-export WORKON_HOME=$HOME/.virtualenvs
-source /usr/local/bin/virtualenvwrapper.sh
+#export WORKON_HOME=$HOME/.virtualenvs
+#if [[ -e "/usr/local/bin/virtualenvwrapper.sh" ]]; then
+#  source /usr/local/bin/virtualenvwrapper.sh;
+#fi
 
 function virtualenv_info(){
     # Get Virtual Env
@@ -341,18 +343,19 @@ PS1+="\[${Green}\]\$(virtualenv_info)" # Virtual env if applicable
 PS1+="\[${Cyan}\]\$ " # Prompt
 PS1+="\[${BWhite}\]" # User input color
 PS1+='\[]0;$(whoami)@$(hostname): \w\]' # Set title bar, should work in ksh too (http://tldp.org/HOWTO/Xterm-Title-4.html)
-PROMPT_COMMAND="history -a;history -c;history -r;" # https://superuser.com/questions/555310/bash-save-history-without-exit
+export PS1="$PS1"
+export PROMPT_COMMAND="history -a;history -c;history -r;" # https://superuser.com/questions/555310/bash-save-history-without-exit
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
-HISTCONTROL=ignoreboth
+export HISTCONTROL=ignoreboth
 
 # append to the history file, don't overwrite it
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=10000
-HISTFILESIZE=20000
+export HISTSIZE=10000
+export HISTFILESIZE=20000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
