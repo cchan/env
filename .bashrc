@@ -266,6 +266,19 @@ git_cdc () {
 }
 alias git-cdc=git_cdc
 
+function grd() { # Git rebase-diff, helpful during merge conflicts.
+                 # $1 = base, $2 = optional path to diff; e.g. grd origin/master src
+  git diff $(merge-base HEAD $1) $1 $2
+}
+
+git config --global alias.dir \!"f(){ \
+  gitfile=\$(git rev-parse --show-toplevel)/.git; \
+  if [ -d \$gitfile ]; then echo \$gitfile; \
+  else cat \$gitfile | sed 's/^gitdir: //'; fi \
+}; f"
+
+
+
 # Line-counter. Just run "lines" and it'll descend into all Git repos under it.
 lines_each () {
   cd "$1/.."
@@ -314,6 +327,7 @@ parse_git_branch() {
 # https://wiki.archlinux.org/index.php/Color_Bash_Prompt
 # (apparently the brackets indicate non-printing characters and help guarantee alignment. No idea how to get the prompt to look right in ksh.)
 PS1="\[${Yellow}\][\$?] " # Exit status for the last command
+PS1+="\[${Cyan}\]\$(date +'%H:%M:%S') "
 PS1+="\[${BBlue}\]\u@\h " # User@Host
 PS1+="\[${Purple}\]\w " # Path
 PS1+="\[${Cyan}\]\$(parse_git_branch)" # Git branch if applicable
