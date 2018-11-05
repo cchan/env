@@ -33,7 +33,9 @@ esac
 
 
 # Paths
-gitpath=/mnt/c/Users/Clive/code
+gitpath=~/code
+  # For WSL, strongly recommend usermodding to use (/mnt)/c/Users/Clive as homedir
+  # Also, copy wsl.conf to /etc/wsl.conf!
 gitbashrc=$gitpath/misc/bashrc
 sshtmp=/tmp/sshagentthing.sh #yes, this is correct. It's a special Unix directory.
 
@@ -130,18 +132,25 @@ fi
 # Self-update.
 if [ -f $gitbashrc/.bashrc ]; then
   pushd $gitbashrc >/dev/null
+  git fetch origin
+  reslog=$(git log HEAD..origin/master --oneline --)
   echo -e "Pulling bashrc... "$(git pull 2>/dev/null)
   popd >/dev/null
-	cmp --silent $gitbashrc/.bashrc ~/.bashrc
-	if [ $? -eq 0 ]; then
-		: # echo ".bashrc is up to date."
-	elif [ $? -eq 1 ]; then
-		cp -v $gitbashrc/.bashrc ~/.bashrc
-		echo "Self-updated. Restarting bash...";
-		exec bash -l
-	else
-		echo "Error comparing with new version. (???)"
-	fi
+  if [[ "${reslog}" != "" ]]; then
+    echo "bashrc has changed in most recent misc. Restarting bash..."
+    exec bash -l
+  fi
+	#cmp --silent $gitbashrc/.bashrc ~/.bashrc
+	#if [ $? -eq 0 ]; then
+	#	: # echo ".bashrc is up to date."
+	#elif [ $? -eq 1 ]; then
+	#	cp -v $gitbashrc/.bashrc ~/.bashrc
+	#	echo "Self-updated. Restarting bash...";
+	#	exec bash -l
+	#else
+	#	echo "Error comparing with new version. (???)"
+	#fi
+  
 else
 	echo "Error looking for new version. Your \$gitbashrc path ($gitbashrc) may not be correct, and you may need to update ~/.bashrc manually."
 fi
@@ -282,6 +291,8 @@ function virtualenv_info(){
     if [[ -n "$VIRTUAL_ENV" ]]; then
         # Strip out the path and just leave the env name
         venv="${VIRTUAL_ENV##*/}"
+    elif [[ -n "$CONDA_DEFAULT_ENV" ]]; then
+        venv="$CONDA_DEFAULT_ENV"
     else
         # In case you don't have one activated
         venv=''
@@ -394,15 +405,15 @@ fi
 command -v pm2 >/dev/null && . <(pm2 completion)
 
 if [ ! -e ~/.gitcompletion.bash ]; then
-    wget -O ~/.gitcompletion.bash https://raw.githubusercontent.com/git/git/87cc76fa3a79eb86136e55432bd4e4ecc84744cd/contrib/completion/git-completion.bash
+    ln -s $gitbashrc/git-completion.bash ~/.gitcompletion.bash
 fi
 . ~/.gitcompletion.bash
 
 # Last, to avoid interfering with the automated stuff
 # "Avoid Losing Files" - cs137
-alias cp="cp -i"
-alias mv="mv -i"
-# alias rm="rm -i"
+alias cp="cp -i -v"
+alias mv="mv -i -v"
+alias rm="rm -v"
 
 if [ -n "$DEBUG" ]; then
   echo "[.bashrc] FINISHED!"
