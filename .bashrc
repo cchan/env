@@ -31,12 +31,15 @@ esac
 #     user fdsa
 # then you can just type "ssh asdf" and it'll work
 
+if [ -e ~/.bashrc.conf ]; then
+  . ~/.bashrc.conf
+fi
 
 # Paths
-gitpath=~/code
+${gitpath:=~/code}
   # For WSL, strongly recommend usermodding to use (/mnt)/c/Users/Clive as homedir
   # Also, copy wsl.conf to /etc/wsl.conf!
-gitbashrc=$gitpath/misc/bashrc
+${gitbashrc:=$gitpath/misc/bashrc}
 sshtmp=/tmp/sshagentthing.sh #yes, this is correct. It's a special Unix directory.
 
 
