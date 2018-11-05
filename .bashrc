@@ -134,7 +134,10 @@ if [ -f $gitbashrc/.bashrc ]; then
   pushd $gitbashrc >/dev/null
   git fetch origin
   reslog=$(git log HEAD..origin/master --oneline --)
-  echo -e "Pulling bashrc... "$(git pull 2>/dev/null)
+  echo -e "Pulling bashrc... "
+  if ! git pull 2>/dev/null; then
+    echo "You probably have a merge conflict; you need to manually merge the newest changes in misc.";
+  fi
   popd >/dev/null
   if [[ "${reslog}" != "" ]]; then
     echo "bashrc has changed in most recent misc. Restarting bash..."
