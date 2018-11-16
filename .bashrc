@@ -131,6 +131,8 @@ else
 	echo "SSH is not currently set up. You might want to do that."
 fi
 
+alias lskeys="for pubkey in /etc/ssh/ssh_host_*_key.pub; do ssh-keygen -lf \$pubkey; done"
+
 
 # Self-update.
 if [ -f $gitbashrc/.bashrc ]; then
@@ -199,7 +201,7 @@ alias bb-clone=bb_clone
 #   [the culprit was ruby devkit with the extremely outdated tools]
 gsa () {
 	typeset -xf gsa_repodetails
-	find -type d -name .git -prune -exec bash -c 'gsa_repodetails "$0"' {} \;
+	find . -type d -name .git -prune -exec bash -c 'gsa_repodetails "$0"' {} \;
 }
 gsa_repodetails () {
 	cd "$1/..";
@@ -370,7 +372,12 @@ shopt -s checkwinsize
 
 
 # enable color support of ls and also add handy aliases
-alias ls='ls --color=auto'
+if ls --color=auto &>/dev/null; then
+  alias ls='ls -p --color=auto'
+else
+  alias ls='ls -pG' # For MacOS and other BSD derivatives
+fi
+
 alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
 
