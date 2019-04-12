@@ -135,7 +135,7 @@ alias lskeys="for pubkey in /etc/ssh/ssh_host_*_key.pub; do ssh-keygen -lf \$pub
 
 
 # Self-update.
-if [ -f $gitbashrc/.bashrc ]; then
+(if [ -f $gitbashrc/.bashrc ]; then
   pushd $gitbashrc >/dev/null
   git fetch origin
   reslog=$(git log HEAD..origin/master --oneline --)
@@ -145,8 +145,8 @@ if [ -f $gitbashrc/.bashrc ]; then
   fi
   popd >/dev/null
   if [[ "${reslog}" != "" ]]; then
-    echo "bashrc has changed in most recent misc. Restarting bash..."
-    exec bash -l
+    echo "bashrc has changed in most recent misc. You may want to restart bash."
+    # exec bash -l
   fi
 	#cmp --silent $gitbashrc/.bashrc ~/.bashrc
 	#if [ $? -eq 0 ]; then
@@ -161,7 +161,7 @@ if [ -f $gitbashrc/.bashrc ]; then
   
 else
 	echo "Error looking for new version. Your \$gitbashrc path ($gitbashrc) may not be correct, and you may need to update ~/.bashrc manually."
-fi
+fi &)
 
 
 # Git shortforms.
@@ -399,7 +399,7 @@ if [ -f ~/.bash_aliases ]; then
 fi
 
 
-if ! command -v gpg >/dev/null; then
+(if ! command -v gpg >/dev/null; then
   echo 'GPG is not installed.'
 else
   gpgoutput=$(gpg --check-sigs)
@@ -409,7 +409,7 @@ else
   else
     echo 'GPG keyring verified. Remember to `gpg --refresh-keys` and watch for updates.'
   fi
-fi
+fi &)
 
 
 if [ -e ~/.bashrcrc ]; then
@@ -417,9 +417,8 @@ if [ -e ~/.bashrcrc ]; then
 fi
 
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-
+#export NVM_DIR="$HOME/.nvm"
+#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -438,6 +437,8 @@ if [ ! -e ~/.gitcompletion.bash ]; then
     ln -s $gitbashrc/git-completion.bash ~/.gitcompletion.bash
 fi
 . ~/.gitcompletion.bash
+
+#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # Last, to avoid interfering with the automated stuff
 # "Avoid Losing Files" - cs137
