@@ -100,8 +100,9 @@ export ColorReset='[00m'     # Reset to default
 
 
 # Gets to the right place
-cd $gitpath
-
+if [ "$PWD" == "$HOME" ]; then
+  cd $gitpath
+fi
 
 # Makes me sign in with SSH key if necessary; tries to preserve sessions if possible.
 # NOTE THAT this agent feature must be disabled to have security. Any application can ask the ssh-agent for stuff.
