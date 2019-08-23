@@ -61,6 +61,7 @@ elif command -v nano >/dev/null; then
   alias edit=nano
   alias npp=nano
 fi
+export EDITOR=nano
 # alias robotc="\"C:\Program Files (x86)\Robomatter Inc\ROBOTC Development Environment 4.X\RobotC.exe\""
 # alias sublime="\"C:\Program Files\Sublime Text 3\sublime_text.exe\""
 
@@ -299,6 +300,26 @@ lines () {
   typeset -xf lines_each
   find -type d -name .git -prune -exec bash -c 'lines_each "$0"' {} \;
 }
+
+# For when a process finishes and you want an audible notification.
+bell () {
+  echo -ne '\007'
+}
+
+# Screen/tmux title-setting
+settitle () {
+  printf "\033k$1\033\\"
+}
+
+alias less="less -r"
+
+echo "set mouse" > ~/.nanorc
+echo "include /usr/share/nano/*" >> ~/.nanorc
+
+echo "set -g mouse on" > ~/.tmux.conf
+echo "bind -Tcopy-mode WheelUpPane send -N1 -x scroll-up" >> ~/.tmux.conf
+echo "bind -Tcopy-mode WheelDownPane send -N1 -X scroll-down" >> ~/.tmux.conf
+echo "set-window-option -g visual-bell on" >> ~/.tmux.conf
 
 
 # https://www.pyimagesearch.com/2017/09/04/raspbian-stretch-install-opencv-3-python-on-your-raspberry-pi/
