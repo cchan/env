@@ -318,8 +318,8 @@ echo "set mouse" > ~/.nanorc
 echo "include /usr/share/nano/*" >> ~/.nanorc
 
 echo "set -g mouse on" > ~/.tmux.conf
-echo "bind -Tcopy-mode WheelUpPane send -N1 -x scroll-up" >> ~/.tmux.conf
-echo "bind -Tcopy-mode WheelDownPane send -N1 -X scroll-down" >> ~/.tmux.conf
+echo "bind -Tcopy-mode WheelUpPane send -X -N1 scroll-up" >> ~/.tmux.conf
+echo "bind -Tcopy-mode WheelDownPane send -X -N1 scroll-down" >> ~/.tmux.conf
 echo "set-window-option -g visual-bell on" >> ~/.tmux.conf
 
 
