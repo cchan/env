@@ -6,7 +6,7 @@ echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDcn0Fqr2VEpUDgak6ZfXI+NMDBzNdEVMpnAb
 # There's gotta be a better way to do key management, right?
 
 for keyfile in /etc/ssh/ssh_host_*_key; do
-  ssh-keygen -lf $keyfile
+  sudo ssh-keygen -lf $keyfile
 done
 
 ssh-keygen
