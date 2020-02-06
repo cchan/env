@@ -5,6 +5,11 @@ if [ -f "/etc/wireguard/wg0.conf" ]; then
   exit 1
 fi
 
+if [ "$1" -eq "" ]; then
+  echo "Need a unique device number parameter."
+  exit 1
+fi
+
 DEVNUM=$1
 
 sudo add-apt-repository -y ppa:wireguard/wireguard
