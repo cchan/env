@@ -31,10 +31,6 @@ esac
 #     user fdsa
 # then you can just type "ssh asdf" and it'll work
 
-if [ -e ~/.bashrc.conf ]; then
-  . ~/.bashrc.conf
-fi
-
 # Paths
 gitpath=${gitpath:-~/code}
   # For WSL, strongly recommend usermodding to use (/mnt)/c/Users/Clive as homedir
@@ -160,7 +156,6 @@ alias lskeys="for pubkey in /etc/ssh/ssh_host_*_key.pub; do ssh-keygen -lf \$pub
 	#else
 	#	echo "Error comparing with new version. (???)"
 	#fi
-  
 else
 	echo "Error looking for new version. Your \$gitbashrc path ($gitbashrc) may not be correct, and you may need to update ~/.bashrc manually."
 fi &)
@@ -213,16 +208,16 @@ gsa_repodetails () {
 	git remote update >/dev/null &>/dev/null
 	git -c color.status=always rev-parse --abbrev-ref HEAD --
 	git -c color.status=always status -s
-	
+
 	for branch in $(git for-each-ref --sort="-authordate:iso8601" --format="%(refname)" refs/heads/); do
 		SHORT=$(basename "$branch")
-		
+
 		echo -e -n $BCyan"$SHORT: "$ColorReset
 		if [[ -n $(git config --get branch.$SHORT.remote) ]]; then
 			LOCAL=$(git rev-parse "$SHORT")
 			REMOTE=$(git rev-parse "$SHORT"@{upstream})
 			BASE=$(git merge-base "$SHORT" "$SHORT"@{upstream})
-			
+
 			if [ $LOCAL = $REMOTE ]; then
 				echo -e $BGreen"Up-to-date."$ColorReset
 				git log -1 --pretty=format:"LATEST: %ar	%<(50,trunc)%s" $LOCAL --
@@ -422,22 +417,17 @@ if [ -f ~/.bash_aliases ]; then
 fi
 
 
-(if ! command -v gpg >/dev/null; then
-  echo 'GPG is not installed.'
-else
-  gpgoutput=$(gpg --check-sigs)
-  if [ $? != 0 ]; then
-    echo 'ERROR verifying GPG keyring signatures!'
-    echo $gpgoutput
-  else
-    echo 'GPG keyring verified. Remember to `gpg --refresh-keys` and watch for updates.'
-  fi
-fi &)
-
-
-if [ -e ~/.bashrcrc ]; then
-  . ~/.bashrcrc
-fi
+#(if ! command -v gpg >/dev/null; then
+#  echo 'GPG is not installed.'
+#else
+#  gpgoutput=$(gpg --check-sigs)
+#  if [ $? != 0 ]; then
+#    echo 'ERROR verifying GPG keyring signatures!'
+#    echo $gpgoutput
+#  else
+#    echo 'GPG keyring verified. Remember to `gpg --refresh-keys` and watch for updates.'
+#  fi
+#fi &)
 
 
 #export NVM_DIR="$HOME/.nvm"
