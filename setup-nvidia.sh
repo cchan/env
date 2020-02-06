@@ -1,4 +1,5 @@
 #!/bin/bash
+[ "$UID" -eq 0 ] || exec sudo bash "$0" "$@"
 sudo add-apt-repository ppa:graphics-drivers/ppa
 sudo apt update
 sudo apt install nvidia-driver-440

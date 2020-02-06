@@ -7,7 +7,7 @@ if [ -f "/etc/wireguard/wg0.conf" ]; then
   exit 1
 fi
 
-if [ "$1" -eq "" ]; then
+if [ -z "$1" ]; then
   echo "Need a unique device number parameter."
   exit 1
 fi
