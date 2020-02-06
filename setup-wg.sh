@@ -1,5 +1,7 @@
 #!/bin/sh
 
+[ "$UID" -eq 0 ] || exec sudo bash "$0" "$@"
+
 if [ -f "/etc/wireguard/wg0.conf" ]; then
   echo "/etc/wireguard/wg0.conf already exists."
   exit 1
@@ -31,4 +33,6 @@ PersistentKeepalive = 25
 EOF
 
 echo "Run on the server:"
-echo -n "sudo wg set wg0 peer $PUBKEY allowed-ips 10.0.0.0/32"
+echo "sudo wg set wg0 peer $PUBKEY allowed-ips 10.0.0.$DEVNUM/32"
+echo "Then run here:"
+echo "sudo wg-quick up wg0"
