@@ -35,7 +35,6 @@ esac
 gitpath=${gitpath:-~/code}
   # For WSL, strongly recommend usermodding to use (/mnt)/c/Users/Clive as homedir
   # Also, copy wsl.conf to /etc/wsl.conf!
-gitbashrc=${gitbashrc:-$gitpath/misc/bashrc}
 sshtmp=/tmp/sshagentthing.sh #yes, this is correct. It's a special Unix directory.
 
 
@@ -446,10 +445,7 @@ fi
 
 command -v pm2 >/dev/null && . <(pm2 completion)
 
-if [ ! -e ~/.gitcompletion.bash ]; then
-    ln -s $gitbashrc/git-completion.bash ~/.gitcompletion.bash
-fi
-. ~/.gitcompletion.bash
+. $gitbashrc/git-completion.bash
 
 #[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
