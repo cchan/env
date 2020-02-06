@@ -9,3 +9,6 @@ echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDcn0Fqr2VEpUDgak6ZfXI+NMDBzNdEVMpnAb
 for keyfile in /etc/ssh/ssh_host_*_key; do
   ssh-keygen -lf $keyfile
 done
+
+ssh-keygen
+cat ~/.ssh/id_rsa.pub
