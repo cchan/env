@@ -25,4 +25,5 @@ AllowedIPs = 10.0.0.0/24
 PersistentKeepalive = 25
 EOF
 
-echo -n "sudo wg set wg0 peer $PUBKEY allowed-ips 10.0.0.0/24"
+echo "Run on the server:"
+echo -n "sudo wg set wg0 peer $PUBKEY allowed-ips 10.0.0.0/32"
