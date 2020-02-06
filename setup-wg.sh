@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 [ "$UID" -eq 0 ] || exec sudo bash "$0" "$@"
 
@@ -14,8 +14,8 @@ fi
 
 DEVNUM=$1
 
-sudo add-apt-repository -y ppa:wireguard/wireguard
-sudo apt -y install wireguard
+add-apt-repository -y ppa:wireguard/wireguard
+apt -y install wireguard
 
 PRIVKEY=$(wg genkey)
 PUBKEY=$(echo $PRIVKEY | wg pubkey)
