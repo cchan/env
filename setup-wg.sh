@@ -35,5 +35,4 @@ EOF
 echo "Run on the server:"
 echo "sudo wg set wg0 peer $PUBKEY allowed-ips 10.0.0.$DEVNUM/32"
 echo "Then run here:"
-echo "sudo wg-quick up wg0"
-echo "sudo systemctl enable wg-quick@wg0"
+echo "sudo wg-quick up wg0 && sudo systemctl enable wg-quick@wg0"
