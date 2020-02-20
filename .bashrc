@@ -136,9 +136,9 @@ alias lskeys="for pubkey in /etc/ssh/ssh_host_*_key.pub; do ssh-keygen -lf \$pub
   pushd $gitbashrc >/dev/null
   git fetch origin
   reslog=$(git log HEAD..origin/master --oneline --)
-  echo -e "Pulling bashrc... "
-  if ! git pull 2>/dev/null; then
-    echo "You probably have a merge conflict; you need to manually merge the newest changes in misc.";
+  #echo -e "Pulling bashrc... "
+  if ! git pull 2>/dev/null 1>/dev/null; then
+    echo ".bashrc pull failed. You probably have a merge conflict; you may need to manually merge the newest changes.";
   fi
   popd >/dev/null
   if [[ "${reslog}" != "" ]]; then
@@ -344,11 +344,14 @@ function virtualenv_info(){
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 
+echo "5"
+
+
 # https://askubuntu.com/questions/249174/prepend-current-git-branch-in-terminal
 parse_git_branch() {
   branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
   if [ $? -eq 0 ]; then
-    echo "("$branch") " | tr -d '\n'
+    echo -n "("$branch") "
   fi
 }
 # https://wiki.archlinux.org/index.php/Color_Bash_Prompt
@@ -361,7 +364,9 @@ PS1+="\[${Cyan}\]\$(parse_git_branch)" # Git branch if applicable
 PS1+="\[${Green}\]\$(virtualenv_info)" # Virtual env if applicable
 PS1+="\[${Cyan}\]\$ " # Prompt
 PS1+="\[${BWhite}\]" # User input color
-PS1+='\[]0;$(whoami)@$(hostname): \w\]' # Set title bar, should work in ksh too (http://tldp.org/HOWTO/Xterm-Title-4.html)
+WHOAMI=$(whoami)
+HOSTNAME=$(hostname)
+PS1+='\[]0;$WHOAMI@$HOSTNAME: \w\]' # Set title bar, should work in ksh too (http://tldp.org/HOWTO/Xterm-Title-4.html)
 export PS1="$PS1"
 export PROMPT_COMMAND="history -a;history -c;history -r;" # https://superuser.com/questions/555310/bash-save-history-without-exit
 
@@ -416,17 +421,17 @@ if [ -f ~/.bash_aliases ]; then
 fi
 
 
-#(if ! command -v gpg >/dev/null; then
-#  echo 'GPG is not installed.'
-#else
-#  gpgoutput=$(gpg --check-sigs)
-#  if [ $? != 0 ]; then
-#    echo 'ERROR verifying GPG keyring signatures!'
-#    echo $gpgoutput
-#  else
-#    echo 'GPG keyring verified. Remember to `gpg --refresh-keys` and watch for updates.'
-#  fi
-#fi &)
+(if ! command -v gpg >/dev/null; then
+  echo 'GPG is not installed.'
+elif [[ $(gpg --list-keys) || $(gpg --list-secret-keys) ]]; then
+  gpgoutput=$(gpg --check-sigs)
+  if [ $? != 0 ]; then
+    echo 'ERROR verifying GPG keyring signatures!'
+    echo $gpgoutput
+  else
+    echo 'GPG keyring verified. Remember to `gpg --refresh-keys` and watch for updates.'
+  fi
+fi &)
 
 
 #export NVM_DIR="$HOME/.nvm"
