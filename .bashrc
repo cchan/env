@@ -1,6 +1,6 @@
 #!/bin/bash
 # .bashrc
-# LastUpdated: see the Git history of https://github.com/cchan/misc/blob/master/bashrc/.bashrc is more reliable
+# LastUpdated: see the Git history of https://github.com/cchan/env/blob/master/bashrc/.bashrc is more reliable
 # Copyright Clive Chan, 2014-present (http://clive.io)
 # License: CC BY-SA 4.0(https://creativecommons.org/licenses/by-sa/4.0/)
 
@@ -143,7 +143,7 @@ alias lskeys="for pubkey in /etc/ssh/ssh_host_*_key.pub; do ssh-keygen -lf \$pub
   fi
   popd >/dev/null
   if [[ "${reslog}" != "" ]]; then
-    echo "bashrc has changed in most recent misc. You may want to restart bash."
+    echo "bashrc has changed in most recent env. You may want to restart bash."
     # exec bash -l
   fi
 	#cmp --silent $gitbashrc/.bashrc ~/.bashrc
@@ -181,7 +181,7 @@ alias gr="git remote -vv"
 alias grep='grep --color --exclude-dir=.git --exclude-dir=node_modules'
 
 # Shortform SSH cloning from GitHub and BitBucket
-# Use like this: clone-gh cchan/misc
+# Use like this: clone-gh cchan/env
 clone_gh () { git clone "git@github.com:$1"; }
 alias clone-gh=clone_gh
 gh_clone () { clone-gh $1; }
