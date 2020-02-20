@@ -452,6 +452,14 @@ command -v pm2 >/dev/null && . <(pm2 completion)
 
 #[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+
+alias sudo='sudo ' # allows aliases to work for sudo https://askubuntu.com/a/22043
+if command -v apt-fast >/dev/null; then
+  alias apt=apt-fast
+  alias apt-get=apt-fast
+fi
+
+
 # Last, to avoid interfering with the automated stuff
 # "Avoid Losing Files" - cs137
 alias cp="cp -i -v"
