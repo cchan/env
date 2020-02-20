@@ -135,7 +135,7 @@ alias lskeys="for pubkey in /etc/ssh/ssh_host_*_key.pub; do ssh-keygen -lf \$pub
 # Self-update.
 (if [ -f $gitbashrc/.bashrc ]; then
   pushd $gitbashrc >/dev/null
-  git fetch origin
+  git fetch origin 2>/dev/null
   reslog=$(git log HEAD..origin/master --oneline --)
   #echo -e "Pulling bashrc... "
   if ! git pull 2>/dev/null 1>/dev/null; then
