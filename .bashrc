@@ -64,6 +64,8 @@ export EDITOR=nano
 
 ####### CODE #######
 
+# If on WSL, make sure to set the colors like this: https://github.com/microsoft/terminal/issues/22#issuecomment-448523876
+
 # COLORS!
 # https://wiki.archlinux.org/index.php/Color_Bash_Prompt
 # Regular Colors
