@@ -33,6 +33,7 @@ esac
 
 # Paths
 gitpath=${gitpath:-~/code}
+gitbashrc=${gitbashrc:$gitpath/env}
   # For WSL, strongly recommend usermodding to use (/mnt)/c/Users/Clive as homedir
   # Also, copy wsl.conf to /etc/wsl.conf!
 sshtmp=/tmp/sshagentthing.sh #yes, this is correct. It's a special Unix directory.
