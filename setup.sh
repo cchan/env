@@ -1,4 +1,6 @@
 #!/bin/bash
+mkdir ~/code
+cd ~/code
 sudo apt -y install git
 git clone https://github.com/cchan/env
 cd env
