@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Set up SSH server
 sudo apt -y install openssh-server

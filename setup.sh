@@ -1,8 +1,9 @@
 #!/bin/bash
+set -e
 
 # wget https://github.com/cchan/env && bash env
 
-mkdir ~/code
+mkdir -p ~/code
 cd ~/code
 sudo apt -y install git
 git clone https://github.com/cchan/env

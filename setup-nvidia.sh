@@ -1,6 +1,6 @@
 #!/bin/bash
-wget https://repo.anaconda.com/archive/Anaconda3-2019.10-Linux-x86_64.sh
-bash Anaconda3-2019.10-Linux-x86_64.sh
+set -e
+
 conda install pytorch torchvision cudatoolkit=10.1 -c pytorch
 
 #echo Just use https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html
