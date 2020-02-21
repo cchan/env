@@ -1,4 +1,7 @@
 #!/bin/bash
+
+# wget https://github.com/cchan/env && bash env
+
 mkdir ~/code
 cd ~/code
 sudo apt -y install git
@@ -9,3 +12,5 @@ cd env
 ./setup-bashrc.sh
 ./setup-ssh.sh
 ./setup-wg.sh
+./setup-conda.sh
+bash ./setup-nvidia.sh
