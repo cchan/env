@@ -4,6 +4,11 @@
 sudo apt -y install openssh-server
 
 sudo sh -c "echo 'AllowUsers $(whoami)' >> /etc/ssh/sshd_config"
+sudo sh -c "echo 'PasswordAuthentication no' >> /etc/ssh/sshd_config"
+sudo sh -c "echo 'ChallengeResponseAuthentication no' >> /etc/ssh/sshd_config"
+sudo sh -c "echo 'PubkeyAuthentication yes' >> /etc/ssh/sshd_config"
+# I'm not sure that these directives actually do anything. First directive wins for a given directive.
+
 # Consider checking sudo cat /etc/shadow | cut -d: -f2 to make sure no users can log in with password.
 # Consider deluser'ing any users with shells.
 sudo service sshd start
