@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-# wget https://github.com/cchan/env && bash env
+# wget https://clive.io/env && bash env
 
 mkdir -p ~/code
 cd ~/code
