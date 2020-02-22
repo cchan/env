@@ -25,12 +25,13 @@ conda install pytorch torchvision cudatoolkit=10.2 -c pytorch
 
 pip install pycuda
 
-echo "Now sudo reboot, then run these to test the installation:"
+echo "Rebooting. After the reboot, run these to test the installation:"
 echo "nvidia-smi"
 echo "nvcc --version"
 echo "python -c 'import torch;print(torch.cuda.is_available())'"
-echo "python -c 'import pycuda'"
+echo "python ~/code/env/pycuda_test.py"
 
+sudo reboot
 
 
 
