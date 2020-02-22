@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+# Selected minimal install and no graphics + third party stuff in the 18.04 installer.
+
 # Install latest nvidia driver (440)
 sudo add-apt-repository ppa:graphics-drivers/ppa
 sudo apt update
