@@ -1,8 +1,17 @@
 #!/bin/bash
 set -e
 
-# Server needs to set net.ipv4.ip_forward=1 in /etc/sysctl.conf
-# then sudo sysctl -p /etc/sysctl.conf
+# This script does client setup.
+
+# For the server:
+# /etc/wireguard/wg0.conf contains:
+#[Interface]
+#Address = 10.0.0.1/24
+#SaveConfig = true
+#ListenPort = 51820
+#PrivateKey = uIJ9YsKfNuK+m/X+BULBo/cUCO2bvYAeBMUvglR4M2s=
+# Then set net.ipv4.ip_forward=1 in /etc/sysctl.conf
+# and sudo sysctl -p
 
 
 [ "$UID" -eq 0 ] || exec sudo bash "$0" "$@"
