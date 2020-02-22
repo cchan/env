@@ -6,15 +6,19 @@ set -e
 # Install latest nvidia driver (440)
 sudo add-apt-repository ppa:graphics-drivers/ppa
 sudo apt update
-sudo apt install nvidia-driver-440 # nvidia drivers are backwards compatible with older cudatoolkits.
+sudo apt -y install nvidia-driver-440 # nvidia drivers are backwards compatible with older cudatoolkits.
 
 # Install cuda toolkit via the recommended way
 wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-ubuntu1804.pin
 sudo mv cuda-ubuntu1804.pin /etc/apt/preferences.d/cuda-repository-pin-600
 sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
 sudo add-apt-repository "deb http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/ /"
-sudo apt-get update
-sudo apt-get -y install cuda
+sudo apt update
+sudo apt -y install cuda
+
+# According to the postinstall instructions on https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#post-installation-actions
+export PATH=/usr/local/cuda-10.2/bin:/usr/local/cuda-10.2/NsightCompute-2019.1${PATH:+:${PATH}}
+echo 'export PATH=/usr/local/cuda-10.2/bin:/usr/local/cuda-10.2/NsightCompute-2019.1${PATH:+:${PATH}}' >> ~/.bashrc
 
 # Not sure if 10.2 or 10.1
 conda install pytorch torchvision cudatoolkit=10.2 -c pytorch
@@ -26,6 +30,11 @@ echo "nvidia-smi"
 echo "nvcc --version"
 echo "python -c 'import torch;print(torch.cuda.is_available())'"
 echo "python -c 'import pycuda'"
+
+
+
+
+
 
 #echo Just use https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html
 #echo Also make sure to get CuDNN.

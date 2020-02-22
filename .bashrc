@@ -358,7 +358,7 @@ parse_git_branch() {
 # (apparently the brackets indicate non-printing characters and help guarantee alignment. No idea how to get the prompt to look right in ksh.)
 PS1="\[${Yellow}\][\$?] " # Exit status for the last command
 PS1+="\[${Cyan}\]\$(date +'%H:%M:%S') "
-PS1+="\[${BBlue}\]\u@\h " # User@Host
+PS1+="\[${BBlue}\]\u@\h${WG_DEVNUM:+#${WG_DEVNUM}} " # User@Host
 PS1+="\[${Purple}\]\w " # Path
 PS1+="\[${Cyan}\]\$(parse_git_branch)" # Git branch if applicable
 PS1+="\[${Green}\]\$(virtualenv_info)" # Virtual env if applicable

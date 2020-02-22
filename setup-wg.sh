@@ -9,7 +9,7 @@ if [ -f "/etc/wireguard/wg0.conf" ]; then
 fi
 
 if [ -z "$1" ]; then
-  echo "Need a unique device number parameter."
+  echo "Need a unique device number parameter (1-255)."
   exit 1
 fi
 
@@ -32,6 +32,8 @@ Endpoint = wg.clive.io:51820
 AllowedIPs = 10.0.0.0/24
 PersistentKeepalive = 25
 EOF
+
+echo "export WG_DEVNUM=$WG_DEVNUM" >> ~/.bashrc
 
 echo "Run on the server:"
 echo "sudo wg set wg0 peer $PUBKEY allowed-ips 10.0.0.$DEVNUM/32"
