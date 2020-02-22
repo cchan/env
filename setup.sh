@@ -23,7 +23,9 @@ read -p "Please SSH into the machine, update known_hosts as needed, and add the 
 ./setup-wg.sh $1
 read -p "Please follow the above Wireguard instructions."
 
+# Last one, to allow wg to put its WG_DEVNUM variable into .bashrc
 ./setup-bashrc.sh
 
+read -p "If this is an Nvidia machine, press enter to continue; otherwise ctrl-c to exit. (only tested on RTX 2070 on Ubuntu 18.04!)"
 # Use bash to reload bashrc, so we can get apt-fast working for this big install
 bash ./setup-nvidia.sh
