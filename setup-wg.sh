@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+# Server needs to set net.ipv4.ip_forward=1 in /etc/sysctl.conf
+# then sudo sysctl -p /etc/sysctl.conf
+
+
 [ "$UID" -eq 0 ] || exec sudo bash "$0" "$@"
 
 if [ -f "/etc/wireguard/wg0.conf" ]; then
