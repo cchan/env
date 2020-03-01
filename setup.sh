@@ -3,6 +3,8 @@ set -e
 
 # wget https://clive.io/env && bash env <DEVICE_ID>
 
+# For RPi, use https://github.com/cchan/ura_s18 first
+
 if [ -z "$1" ]; then
   echo "Need a unique device number parameter (1-255) for Wireguard."
   exit 1
