@@ -62,6 +62,6 @@ EOF
 echo "export WG_DEVNUM=$WG_DEVNUM" >> ~/.bashrc
 
 echo "Run on the server:"
-echo "sudo wg set wg0 peer $PUBKEY allowed-ips 10.0.0.$DEVNUM/32"
+echo "sudo wg set wg0 peer $PUBKEY allowed-ips 10.0.0.$DEVNUM/32 && sudo wg-quick save wg0"
 echo "Then run here:"
 echo "sudo wg-quick up wg0 && sudo systemctl enable wg-quick@wg0"
