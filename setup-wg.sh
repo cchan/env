@@ -28,21 +28,22 @@ fi
 
 DEVNUM=$1
 
+if [[ "$(whoami)" -eq "pi" ]]; then
+  # https://github.com/adrianmihalko/raspberrypiwireguard/wiki/Install-WireGuard-on-Raspberry-Pi-1,-2-(not-v1.2),-Zero,-Zero-W
+  read -p "If this is a raspberry pi 1, 2, zero, or zero w, this won't work. Continue?"
+  # https://www.reddit.com/r/pihole/comments/bnihyz/guide_how_to_install_wireguard_on_a_raspberry_pi/
+  apt -y install raspberrypi-kernel-headers libelf-dev libmnl-dev build-essential git
+  echo "deb http://deb.debian.org/debian/ unstable main" > /etc/apt/sources.list.d/unstable.list
+  printf "Package: *\nPin: release a=unstable\nPin-Priority: 90\n" > /etc/apt/preferences.d/limit-unstable
+  apt-key adv --keyserver   keyserver.ubuntu.com --recv-keys 7638D0442B90D010 # apparently dirmngr is included in newer pi images
+  apt-key adv --keyserver   keyserver.ubuntu.com --recv-keys 04EE7237B7D453EC
+  apt update
+  apt -y install wireguard
+else
+  add-apt-repository -y ppa:wireguard/wireguard
+  apt -y install wireguard
+fi
 
-## https://www.reddit.com/r/pihole/comments/bnihyz/guide_how_to_install_wireguard_on_a_raspberry_pi/
-#sudo apt install raspberrypi-kernel-headers libelf-dev libmnl-dev build-essential git
-#sudo sh -c 'echo "deb http://deb.debian.org/debian/ unstable main" > /etc/apt/sources.list.d/unstable.list'
-#sudo sh -c 'printf "Package: *\nPin: release a=unstable\nPin-Priority: 90\n" > /etc/apt/preferences.d/limit-unstable'
-#sudo apt update
-#sudo apt install dirmngr
-#sudo apt-key adv --keyserver   keyserver.ubuntu.com --recv-keys 7638D0442B90D010
-#sudo apt-key adv --keyserver   keyserver.ubuntu.com --recv-keys 04EE7237B7D453EC
-#sudo apt update
-#sudo apt install wireguard
-
-
-add-apt-repository -y ppa:wireguard/wireguard
-apt -y install wireguard
 
 PRIVKEY=$(wg genkey)
 PUBKEY=$(echo $PRIVKEY | wg pubkey)

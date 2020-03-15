@@ -16,8 +16,12 @@ sudo apt -y install git
 git clone https://github.com/cchan/env
 cd env
 
-./setup-apt-fast.sh
-./setup-conda.sh
+if [[ "$(whoami)" -eq "pi" ]]; then
+  echo "Skipping apt-fast and conda"
+else
+  ./setup-apt-fast.sh
+  ./setup-conda.sh
+fi
 ./setup-ssh.sh
 read -p "Please SSH into the machine, update known_hosts as needed, and add the above pubkey to GitHub. Then press enter to continue."
 
