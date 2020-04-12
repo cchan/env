@@ -461,6 +461,11 @@ if command -v apt-fast >/dev/null; then
   alias apt-get=apt-fast
 fi
 
+if command -v conda >/dev/null; then
+  conda config --set changeps1 False
+fi
+
+alias vscode=code
 
 # Last, to avoid interfering with the automated stuff
 # "Avoid Losing Files" - cs137
