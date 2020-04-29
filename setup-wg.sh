@@ -55,7 +55,7 @@ Address = 10.0.0.$DEVNUM/24
 
 [Peer]
 PublicKey = t9E4ilsbKxL25ZxX3pMfLBnnWGYWqCCzWvDjfRX8i0o=
-Endpoint = wg.clive.io:51820
+Endpoint = wg.clive.io:51327
 AllowedIPs = 10.0.0.0/24
 PersistentKeepalive = 25
 EOF
