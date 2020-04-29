@@ -9,7 +9,7 @@ set -e
 #Address = 10.0.0.1/24
 #SaveConfig = true
 #ListenPort = 51820
-#PrivateKey = uIJ9YsKfNuK+m/X+BULBo/cUCO2bvYAeBMUvglR4M2s=
+#PrivateKey = ...
 # Then set net.ipv4.ip_forward=1 in /etc/sysctl.conf
 # and sudo sysctl -p
 
@@ -54,7 +54,7 @@ PrivateKey = $PRIVKEY
 Address = 10.0.0.$DEVNUM/24
 
 [Peer]
-PublicKey = w6Pdn0bsHMlfUH2AQxViDQf/1XyAKzbT0bJcCxDpoVE=
+PublicKey = t9E4ilsbKxL25ZxX3pMfLBnnWGYWqCCzWvDjfRX8i0o=
 Endpoint = wg.clive.io:51820
 AllowedIPs = 10.0.0.0/24
 PersistentKeepalive = 25
