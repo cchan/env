@@ -28,7 +28,7 @@ fi
 
 DEVNUM=$1
 
-if [[ "$(whoami)" -eq "pi" ]]; then
+if [[ "$(whoami)" == "pi" ]]; then
   # https://github.com/adrianmihalko/raspberrypiwireguard/wiki/Install-WireGuard-on-Raspberry-Pi-1,-2-(not-v1.2),-Zero,-Zero-W
   read -p "If this is a raspberry pi 1, 2, zero, or zero w, this won't work. Continue?"
   # https://www.reddit.com/r/pihole/comments/bnihyz/guide_how_to_install_wireguard_on_a_raspberry_pi/
@@ -40,7 +40,7 @@ if [[ "$(whoami)" -eq "pi" ]]; then
   apt update
   apt -y install wireguard
 else
-  add-apt-repository -y ppa:wireguard/wireguard
+  add-apt-repository -y ppa:wireguard/wireguard || echo Warning: adding apt repo was not successful, you may be on 20.04
   apt -y install wireguard
 fi
 
