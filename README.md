@@ -19,19 +19,17 @@ This is derived from [here](https://www.williamjbowman.com/blog/2020/04/25/runni
 
 1) Install Wireguard on the host Windows system and connect to the VPN.
 
-2) Run this:
+2) Get ssh to listen on a different port (I think Windows sometimes uses 22)
 ```
 echo 'Port 2222' | sudo tee /etc/ssh/sshd_config
-
-# Don't need this anymore actually
-# echo '%sudo ALL=(ALL:ALL) NOPASSWD: /usr/sbin/service ssh start' | sudo tee /etc/sudoers.d/67-wsl-ssh
 ```
 Also make sure sshd is using ipv4. By default it does both v4 and v6 which is good.
 
 3) Put this in C:\Users\<USER>\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\wsl-ssh.bat
 ```
 set PORT=2222
-netsh interface portproxy add v4tov4 listenport=%PORT% listenaddress=10.0.0.5 connectport=%PORT% connectaddress=127.0.0.1
+set MY_WG_IP=10.0.0.5
+netsh interface portproxy add v4tov4 listenport=%PORT% listenaddress=%MY_WG_IP% connectport=%PORT% connectaddress=127.0.0.1
 wsl -u root service ssh start
 ```
 (this last command also keeps WSL turned on forever, as desired)
