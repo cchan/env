@@ -25,15 +25,19 @@ echo 'Port 2222' | sudo tee /etc/ssh/sshd_config
 ```
 Also make sure sshd is using ipv4. By default it does both v4 and v6 which is good.
 
-3) Put this in C:\Users\<USER>\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\wsl-ssh.bat
+3) Put this in some `.bat` file
 ```
 set PORT=2222
 set MY_WG_IP=10.0.0.5
 netsh interface portproxy add v4tov4 listenport=%PORT% listenaddress=%MY_WG_IP% connectport=%PORT% connectaddress=127.0.0.1
 wsl -u root service ssh start
 ```
-(this last command also keeps WSL turned on forever, as desired)
+- Last command also keeps WSL turned on forever, as desired
 
-> 4) In Windows, allow the port through the Windows firewall explicitly by adding a new Inbound Rule using the Windows Defender Firewall with Advanced Security administrative tool. This is accessible as WF.msc in cmd and Powershell. Select Inbound Rule, and click New rule... in the action menu to the right, and work your way through the menu to allow the port explicitly. Normally, Windows asks if you want to allow applications through the firewall. This doesn’t seem to happen with WSL servers, so we have to manually add a rule.
+And then add a shortcut to `C:\Users\<USER>\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup`, then on that shortcut check `Properties > Shortcut > Advanced... > Run as Administrator`.
 
-4.1) It doesn't appear possible to mark the Wireguard virtual network as private, so you can set the Windows Firewall rule to only apply to private networks. As a substitute, make sure to set source IP to the Wireguard subnet, and the destination IP to the current computer's Wireguard IP.
+4) Firewall setup
+
+> In Windows, allow the port through the Windows firewall explicitly by adding a new Inbound Rule using the Windows Defender Firewall with Advanced Security administrative tool. This is accessible as WF.msc in cmd and Powershell. Select Inbound Rule, and click New rule... in the action menu to the right, and work your way through the menu to allow the port explicitly. Normally, Windows asks if you want to allow applications through the firewall. This doesn’t seem to happen with WSL servers, so we have to manually add a rule.
+
+Additionally, it doesn't appear possible to mark the Wireguard virtual network as private, so you can set the Windows Firewall rule to only apply to private networks. As a substitute, make sure to set source IP to the Wireguard subnet, and the destination IP to the current computer's Wireguard IP.
