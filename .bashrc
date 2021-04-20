@@ -12,7 +12,7 @@
 
 # https://www.linuxquestions.org/questions/linux-newbie-8/scp-copy-a-file-from-local-machine-to-remote-machine-214150/
 # "dumb" terminal type for SCP doesn't support "clear" and other things
-test "dumb" == $TERM && return
+[[ "dumb" == $TERM ]] && return
 
 # If not running interactively, don't do anything
 case $- in
@@ -98,7 +98,7 @@ export ColorReset='[00m'     # Reset to default
 
 
 # Gets to the right place
-if [ "$PWD" == "$HOME" ]; then
+if [[ "$PWD" == "$HOME" ]]; then
   cd $gitpath
 fi
 
@@ -108,7 +108,7 @@ fi
 # For a guide on how to use SSH with GitHub, try https://help.github.com/articles/generating-ssh-keys/
 # If something messes up, ssh-reset to remove the starter file and restart the shell.
 # "ssh-agent" returns a bash script that sets global variables, so I store it into a tmp file auto-erased at each reboot.
-if [ -f ~/.ssh/id_rsa ] || [ -f ~/.ssh/id_ecdsa ]; then # Only if we actually have some SSH stuff to do
+if [ -f ~/.ssh/id_rsa ] || [ -f ~/.ssh/id_ecdsa ] || [ -f ~/.ssh/id_ed25519 ]; then # Only if we actually have some SSH stuff to do
 	ssh_start () { ssh-agent > $sshtmp; . $sshtmp > /dev/null; ssh-add &> /dev/null; echo PID $SSH_AGENT_PID; } # -t 1200 may be added to ssh-agent.
   alias ssh-start=ssh_start
 	ssh_end () { rm $sshtmp; kill $SSH_AGENT_PID; }
@@ -312,7 +312,9 @@ settitle () {
 alias less="less -r"
 
 echo "set mouse" > ~/.nanorc
-echo "include /usr/share/nano/*" >> ~/.nanorc
+if [[ -d /usr/share/nano ]]; then
+  echo "include /usr/share/nano/*" >> ~/.nanorc
+fi
 
 echo "set -g mouse on" > ~/.tmux.conf
 echo "bind -Tcopy-mode WheelUpPane send -X -N1 scroll-up" >> ~/.tmux.conf
