@@ -109,7 +109,7 @@ fi
 # If something messes up, ssh-reset to remove the starter file and restart the shell.
 # "ssh-agent" returns a bash script that sets global variables, so I store it into a tmp file auto-erased at each reboot.
 if [ -f ~/.ssh/id_rsa ] || [ -f ~/.ssh/id_ecdsa ] || [ -f ~/.ssh/id_ed25519 ]; then # Only if we actually have some SSH stuff to do
-	ssh_start () { ssh-agent > $sshtmp; . $sshtmp > /dev/null; ssh-add &> /dev/null; echo PID $SSH_AGENT_PID; } # -t 1200 may be added to ssh-agent.
+	ssh_start () { ssh-agent > $sshtmp; . $sshtmp >/dev/null; ssh-add >/dev/null 2>/dev/null; echo PID $SSH_AGENT_PID; } # -t 1200 may be added to ssh-agent.
   alias ssh-start=ssh_start
 	ssh_end () { rm $sshtmp; kill $SSH_AGENT_PID; }
   alias ssh-end=ssh_end
