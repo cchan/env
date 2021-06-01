@@ -424,7 +424,7 @@ fi
 
 
 (if ! command -v gpg >/dev/null; then
-  echo 'GPG is not installed.'
+  : # echo 'GPG is not installed.'
 elif [[ $(gpg --list-keys) || $(gpg --list-secret-keys) ]]; then
   gpgoutput=$(gpg --check-sigs)
   if [ $? != 0 ]; then
@@ -456,6 +456,7 @@ command -v pm2 >/dev/null && . <(pm2 completion)
 
 #[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+export BASH_SILENCE_DEPRECATION_WARNING=1
 
 alias sudo='sudo ' # allows aliases to work for sudo https://askubuntu.com/a/22043
 if command -v apt-fast >/dev/null; then
