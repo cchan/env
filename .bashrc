@@ -145,7 +145,7 @@ alias lskeys="for pubkey in /etc/ssh/ssh_host_*_key.pub; do ssh-keygen -lf \$pub
   fi
   popd >/dev/null
   if [[ "${reslog}" != "" ]]; then
-    wall "bashrc has changed in most recent env with last commit message '$(git log --format="%s" -1)'. You may want to restart bash."
+    echo "bashrc has changed in most recent env with last commit message '$(git log --format="%s" -1)'. You may want to restart bash."
     # exec bash -l
   fi
 	#cmp --silent $gitbashrc/.bashrc ~/.bashrc
