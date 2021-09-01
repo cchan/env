@@ -118,7 +118,7 @@ if [ -f ~/.ssh/id_rsa ] || [ -f ~/.ssh/id_ecdsa ]; then # Only if we actually ha
 	if [ ! -f $sshtmp ]; then # Only do it if daemon doesn't already exist
 		echo
 		echo "New SSH agent"
-		ssh_start
+		ssh_reset
 	else # Otherwise, everything is preserved until the ssh-agent process is stopped.
 		# echo "Reauthenticating SSH agent..."
 		. $sshtmp > /dev/null
