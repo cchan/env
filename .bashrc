@@ -12,7 +12,7 @@
 
 # https://www.linuxquestions.org/questions/linux-newbie-8/scp-copy-a-file-from-local-machine-to-remote-machine-214150/
 # "dumb" terminal type for SCP doesn't support "clear" and other things
-test "dumb" == $TERM && return
+[[ "dumb" == $TERM ]] && return
 
 # If not running interactively, don't do anything
 case $- in
@@ -98,7 +98,7 @@ export ColorReset='[00m'     # Reset to default
 
 
 # Gets to the right place
-if [ "$PWD" == "$HOME" ]; then
+if [[ "$PWD" == "$HOME" ]]; then
   cd $gitpath
 fi
 
@@ -108,8 +108,8 @@ fi
 # For a guide on how to use SSH with GitHub, try https://help.github.com/articles/generating-ssh-keys/
 # If something messes up, ssh-reset to remove the starter file and restart the shell.
 # "ssh-agent" returns a bash script that sets global variables, so I store it into a tmp file auto-erased at each reboot.
-if [ -f ~/.ssh/id_rsa ] || [ -f ~/.ssh/id_ecdsa ]; then # Only if we actually have some SSH stuff to do
-	ssh_start () { ssh-agent > $sshtmp; . $sshtmp > /dev/null; ssh-add &> /dev/null; echo PID $SSH_AGENT_PID; } # -t 1200 may be added to ssh-agent.
+if [ -f ~/.ssh/id_rsa ] || [ -f ~/.ssh/id_ecdsa ] || [ -f ~/.ssh/id_ed25519 ]; then # Only if we actually have some SSH stuff to do
+	ssh_start () { ssh-agent > $sshtmp; . $sshtmp >/dev/null; ssh-add >/dev/null 2>/dev/null; echo PID $SSH_AGENT_PID; } # -t 1200 may be added to ssh-agent.
   alias ssh-start=ssh_start
 	ssh_end () { rm $sshtmp; kill $SSH_AGENT_PID; }
   alias ssh-end=ssh_end
@@ -145,7 +145,7 @@ alias lskeys="for pubkey in /etc/ssh/ssh_host_*_key.pub; do ssh-keygen -lf \$pub
   fi
   popd >/dev/null
   if [[ "${reslog}" != "" ]]; then
-    wall "bashrc has changed in most recent env with last commit message '$(git log --format="%s" -1)'. You may want to restart bash."
+    echo "bashrc has changed in most recent env with last commit message '$(git log --format="%s" -1)'. You may want to restart bash."
     # exec bash -l
   fi
 	#cmp --silent $gitbashrc/.bashrc ~/.bashrc
@@ -312,7 +312,9 @@ settitle () {
 alias less="less -r"
 
 echo "set mouse" > ~/.nanorc
-echo "include /usr/share/nano/*" >> ~/.nanorc
+if [[ -d /usr/share/nano ]]; then
+  echo "include /usr/share/nano/*" >> ~/.nanorc
+fi
 
 echo "set -g mouse on" > ~/.tmux.conf
 echo "bind -Tcopy-mode WheelUpPane send -X -N1 scroll-up" >> ~/.tmux.conf
@@ -378,8 +380,8 @@ export HISTCONTROL=ignoreboth
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-export HISTSIZE=10000
-export HISTFILESIZE=20000
+export HISTSIZE=-1
+export HISTFILESIZE=-1
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -387,7 +389,7 @@ shopt -s checkwinsize
 
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
-#shopt -s globstar
+shopt -s globstar
 
 # make less more friendly for non-text input files, see lesspipe(1)
 #[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -422,7 +424,7 @@ fi
 
 
 (if ! command -v gpg >/dev/null; then
-  echo 'GPG is not installed.'
+  : # echo 'GPG is not installed.'
 elif [[ $(gpg --list-keys) || $(gpg --list-secret-keys) ]]; then
   gpgoutput=$(gpg --check-sigs)
   if [ $? != 0 ]; then
@@ -454,6 +456,7 @@ command -v pm2 >/dev/null && . <(pm2 completion)
 
 #[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+export BASH_SILENCE_DEPRECATION_WARNING=1
 
 alias sudo='sudo ' # allows aliases to work for sudo https://askubuntu.com/a/22043
 if command -v apt-fast >/dev/null; then
