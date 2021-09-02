@@ -4,6 +4,12 @@
 wget https://clive.io/env && bash env
 ```
 
+## Note on MacOS
+First install brew in default Intel `/usr/local` plus Apple Silicon `/opt/homebrew/bin/bash`
+```
+echo /opt/homebrew/bin/bash | sudo tee -a /etc/shells
+chsh -s /opt/homebrew/bin/bash
+```
 
 ## Note on CUDA
 

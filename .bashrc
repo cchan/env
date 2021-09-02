@@ -39,6 +39,16 @@ gitbashrc=${gitbashrc:-$gitpath/env}
 sshtmp=/tmp/sshagentthing.sh #yes, this is correct. It's a special Unix directory.
 
 
+export FZF_CTRL_E_COMMAND="$gitbashrc/rfv"
+export FZF_CTRL_T_OPTS="--preview 'bat --color=always {1}' --preview-window 'up,60%,border-bottom,+{2}+3/3,~3'"
+. $gitbashrc/functions.sh
+. $gitbashrc/key-binding.bash
+_f() {
+  $gitbashrc/rfv $@
+}
+bind '"\C-f": "$(_f)\e\C-e\er"'
+
+
 # Python
 alias py="python -u"
 
