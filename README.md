@@ -11,6 +11,8 @@ echo /opt/homebrew/bin/bash | sudo tee -a /etc/shells
 chsh -s /opt/homebrew/bin/bash
 ```
 
+Also brew install fzf, fd, ripgrep, bat
+
 ## Note on CUDA
 
 For WSL, do not run `setup-nvidia` and instead follow the [CUDA on WSL instructions](https://docs.nvidia.com/cuda/wsl-user-guide/index.html). At the moment I have it working with driver version `465.21` and CUDA version `11.3`. Make sure to `apt install cuda-toolkit-11-2` too (just released as of Jan 2021) to get NVCC.
