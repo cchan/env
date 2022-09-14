@@ -16,7 +16,7 @@ sudo apt -y install git
 git clone https://github.com/cchan/env
 cd env
 
-if [[ "$(whoami)" -eq "pi" ]]; then
+if [ "$(whoami)" == "pi" ]; then
   echo "Skipping apt-fast and conda"
 else
   ./setup-apt-fast.sh

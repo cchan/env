@@ -323,7 +323,7 @@ alias less="less -r"
 
 echo "set mouse" > ~/.nanorc
 if [[ -d /usr/share/nano ]]; then
-  echo "include /usr/share/nano/*" >> ~/.nanorc
+  echo "include /usr/share/nano/**.nanorc" >> ~/.nanorc
 fi
 
 echo "set -g mouse on" > ~/.tmux.conf
@@ -399,7 +399,7 @@ shopt -s checkwinsize
 
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
-shopt -s globstar
+#shopt -s globstar
 
 # make less more friendly for non-text input files, see lesspipe(1)
 #[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
