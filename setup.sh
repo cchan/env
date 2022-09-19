@@ -16,7 +16,7 @@ sudo apt -y install git
 git clone https://github.com/cchan/env
 cd env
 
-if [ "$(whoami)" == "pi" ]; then
+if [ "$(whoami)" == "pi" || "$(whoami)" == "parallella" ]; then
   echo "Skipping apt-fast and conda"
 else
   ./setup-apt-fast.sh
@@ -26,8 +26,12 @@ fi
 read -p "Please SSH into the machine, update known_hosts as needed, and add the above pubkey to GitHub. Then press enter to continue."
 
 ./setup-git.sh
-./setup-wg.sh $1
-read -p "Please follow the above Wireguard instructions."
+
+# It seems impossible to install wireguard on such an old OS, but might be worth revisiting this.
+if [ "$(whoami)" != "parallella" ]; then
+  ./setup-wg.sh $1
+  read -p "Please follow the above Wireguard instructions."
+fi
 
 # Last one, to allow wg to put its WG_DEVNUM variable into .bashrc
 ./setup-bashrc.sh
