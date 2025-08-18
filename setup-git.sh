@@ -3,6 +3,7 @@ set -e
 
 git config --global user.name "Clive Chan"
 git config --global user.email "cc@clive.io"
+git config --global merge.conflictstyle zdiff3
 cd ~/code/env
 git remote remove origin
 git remote add origin git@github.com:cchan/env
