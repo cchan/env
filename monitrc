@@ -304,12 +304,15 @@ check program twitchrolls with path "/usr/bin/systemctl --quiet is-active twitch
 #  if status != 0 then alert
 check program redis-server with path "/usr/bin/systemctl --quiet is-active redis-server"
   if status != 0 then alert
-check program mongod with path "/usr/bin/systemctl --quiet is-active mongod"
+#check program mongod with path "/usr/bin/systemctl --quiet is-active mongod"
+#  if status != 0 then alert
+#check program nginx with path "/usr/bin/systemctl --quiet is-active nginx"
+#  if status != 0 then alert
+#check program sshd with path "/usr/bin/systemctl --quiet is-active sshd"
+#  if status != 0 then alert
+check program sysstatus with path "/bin/sh -c 'SYSTEMD_PAGER=cat SYSTEMD_COLORS=0 LC_ALL=C /usr/bin/systemctl status --no-pager 2>&1 | head -n 10'"
   if status != 0 then alert
-check program nginx with path "/usr/bin/systemctl --quiet is-active nginx"
-  if status != 0 then alert
-check program sshd with path "/usr/bin/systemctl --quiet is-active sshd"
-  if status != 0 then alert
+  if content != "running" then alert
 check filesystem rootfs with path /
   if space usage > 80% then alert
 
